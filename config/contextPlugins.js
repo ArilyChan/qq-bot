@@ -9,7 +9,8 @@ const ContextBuilder = require(`sb-qq-bot-framework/lib/contextBuilder`)
 module.exports = [
   {
     for: ContextBuilder((app) => app, 'any'),
-    use: [{
+    use: [
+      {
       type: 'node_module',
       require: 'blackfarts',
       priority: 1,
@@ -20,6 +21,20 @@ module.exports = [
         }),
         require('./filters/gorup.blackFarts.recipe.restrictHours')([{ from: 9, to: 11 }, { from: 14, to: 17 }, { from: 20, to: 24 }], 263668213)
       ]
+    },
+    {
+      type: 'local',
+      path: 'Plugins/arily/recorder',
+      subPlugin: 'recorder',
+      priority: 9999,
+      filter: [_ => true]
+    },
+    {
+      type: 'local',
+      path: 'Plugins/arily/recorder',
+      subPlugin: 'slipper',
+      priority: -1,
+      filter: [_ => false]
     }]
   }
 ]
