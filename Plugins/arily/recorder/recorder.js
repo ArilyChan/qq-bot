@@ -8,13 +8,13 @@ exports.apply = (ctx, options, storage) => {
     const nickname = () => meta.message.startsWith(ctx.options.name)
     const atMe = () => meta.message.startsWith(`[CQ:at,qq=${meta.selfId}]`)
     try {
-      if (prefix() || nickname() || atMe()) {
+      // if (prefix() || nickname() || atMe()) {
         if (meta.message.includes('recorder.print')) {
           console.log(storage)
           return
         }
         storage.record(meta)
-      }
+      // }
       return next()
     } catch (error) {
       console.log(error)
