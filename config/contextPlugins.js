@@ -27,14 +27,12 @@ module.exports = [
       path: 'Plugins/arily/recorder',
       subPlugin: 'recorder',
       priority: 9999,
-      filter: [_ => true]
     },
     {
       type: 'local',
       path: 'Plugins/arily/recorder',
       subPlugin: 'slipper',
       priority: -1,
-      filter: [_ => false]
     }]
   }
 ]
