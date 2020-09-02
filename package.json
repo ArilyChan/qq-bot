@@ -1,0 +1,40 @@
+{
+  "name": "qq-bot",
+  "version": "1.0.0",
+  "description": "qq bot",
+  "main": "index.js",
+  "dependencies": {
+    "blackfarts": "file:Plugins/arily/BlackFarts",
+    "sb-qq-bot-framework": "^1.0.0"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.10.4",
+    "eslint": "^7.7.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArilyChan/qq-bot.git"
+  },
+  "keywords": [
+    "qq",
+    "bot",
+    "koishi",
+    "arily",
+    "ArilyChan",
+    "ari"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ArilyChan/qq-bot/issues"
+  },
+  "homepage": "https://github.com/ArilyChan/qq-bot#readme"
+}
