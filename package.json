@@ -5,10 +5,10 @@
   "main": "index.js",
   "dependencies": {
     "blackfarts": "file:Plugins/arily/BlackFarts",
-    "sb-qq-bot-framework": "^1.0.0"
+    "sb-qq-bot-framework": "^1.0.0",
+    "@babel/preset-react": "^7.10.4"
   },
   "devDependencies": {
-    "@babel/preset-react": "^7.10.4",
     "eslint": "^7.7.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.0",
