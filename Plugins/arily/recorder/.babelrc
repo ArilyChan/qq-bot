@@ -11,7 +11,7 @@
         "@babel/preset-react"
     ],
     "plugins": [
-        "@babel/plugin-syntax-jsx"
-        // "styled-jsx/babel"
+        "@babel/plugin-syntax-jsx",
+        "@babel/plugin-transform-runtime"
     ]
 }

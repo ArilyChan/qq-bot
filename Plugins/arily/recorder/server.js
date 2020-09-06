@@ -1,8 +1,9 @@
 const express = require('express')
+const path = require('path')
 
 const app = express()
 
-app.set('views', __dirname + '/views')
+app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
 module.exports = (storage) => {
@@ -15,8 +16,16 @@ module.exports = (storage) => {
       messages
     })
   })
-  app.get('/test', (req, res) => {
-    res.render('index', { name: 'John' })
+  app.get('/stat', (req, res) => {
+    res.render('stat', {
+      api: '/stat/json'
+    })
   })
+  app.get('/stat/json', (req, res) => {
+    // res.render('index', { name: 'John' })
+    res.json(require('./function/usage')(storage))
+  })
+  // app.use('/example', require('./example'))
+
   return app
 }
