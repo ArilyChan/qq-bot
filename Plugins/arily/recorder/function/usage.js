@@ -8,7 +8,7 @@ module.exports = (storage, meta = null) => {
     const first = command[0]
     const user = message.userId || -1
     const group = message.groupId || -1
-    const time = new Date(message.time)
+    const time = new Date(message.time * 1000)
     const hour = time.getHours()
 
     if (!triggerCount[first]) triggerCount[first] = 0

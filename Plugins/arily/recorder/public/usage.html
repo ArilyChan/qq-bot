@@ -37,7 +37,7 @@
         .reduce((acc, [command, count]) => {
           let duplicated = acc.find(([_command]) => command === _command)
           if (!duplicated) {
-            duplicated = [command, count]
+            duplicated = [command, 0]
             acc.push(duplicated)
           }
           duplicated[1] += count
