@@ -25,6 +25,7 @@ module.exports = (storage, meta = null) => {
 
     if (!userTriggerHourSummary[user]) userTriggerHourSummary[user] = []
     if (!userTriggerHourSummary[user][hour]) userTriggerHourSummary[user][hour] = 0
+    userTriggerHourSummary[user][hour] += 1
 
     if (!userTriggerCount[user]) userTriggerCount[user] = {}
     if (!userTriggerCount[user][first]) userTriggerCount[user][first] = 0
