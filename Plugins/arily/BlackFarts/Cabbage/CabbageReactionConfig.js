@@ -426,7 +426,7 @@ const uploadElo = async ({ command, meta, app }) => {
 //     }
 // }
 const dad = async function ({ command, meta, app }) {
-  const logger = app.logger('CabbageReaction')
+  // const logger = app.logger('CabbageReaction')
   const message = []
   if (meta.messageType !== 'private') message.push(`[CQ:at,qq=${meta.userId}]`)
   try {
@@ -447,7 +447,7 @@ const dad = async function ({ command, meta, app }) {
   } catch (Error) {
     const append = handleErrorMessage(Error, 'dad') || ''
     message.push(append)
-    logger.warn(Error)
+    console.warn(Error)
   } finally {
     meta.$send(message.join('\n'))
   }

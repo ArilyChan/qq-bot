@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+    integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg=="
+    crossorigin="anonymous"></script>
+  <title>Usage</title>
+</head>
+
+<body>
+  <div>
+    <div>
+      <h2>top command</h2>
+      <div id="topCommand" />
+    </div>
+    <div>
+      <h2>top group</h2>
+      <div id="topGroup" />
+    </div>
+    <div style="height:200px">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+
+  <script type="module">
+    import { html, render } from 'https://unpkg.com/htm/preact/standalone.module.js'
+
+    function populateTopCommand(triggerCount) {
+      const topCommand = Object.entries(triggerCount)
+        .map(([command, count]) => {
+          if (command.startsWith("！")) command = `!${command.slice(1)}`
+          return [command, count]
+        })
+        .reduce((acc, [command, count]) => {
+          let duplicated = acc.find(([_command]) => command === _command)
+          if (!duplicated) {
+            duplicated = [command, count]
+            acc.push(duplicated)
+          }
+          duplicated[1] += count
+          return acc
+        }, [])
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([command, count]) => {
+          return html`
+        <ul>${command}: ${count}</ul>
+        `
+        })
+
+      render(topCommand, document.getElementById("topCommand"))
+    }
+    function populateTopGroup(triggerCount) {
+      const topCommand = Object.entries(triggerCount)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([group, count]) => {
+          return html`
+        <ul>${group}: ${count}</ul>
+        `
+        })
+
+      render(topCommand, document.getElementById("topGroup"))
+    }
+
+    function populateTimeChart(data) {
+      var ctx = document.getElementById('myChart');
+      var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: [...Array(24).keys()],
+          datasets: [{
+            label: 'timeshift',
+            data,
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+    }
+    const interval = async function () {
+      const data = await fetch("http://ri.mk:3005/message-recorder/stat/json").then(res => res.json())
+      populateTimeChart(data.triggerHourSummary)
+      populateTopCommand(data.triggerCount)
+      populateTopGroup(data.groupCount)
+    }
+    window.setInterval(interval, 60 * 1000)
+    interval()
+  </script>
+</body>
+
+</html>
