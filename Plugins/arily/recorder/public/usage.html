@@ -46,9 +46,7 @@
         .sort((a, b) => b[1] - a[1])
         .slice(0, 10)
         .map(([command, count]) => {
-          return html`
-        <ul>${command}: ${count}</ul>
-        `
+          return html`<ul>${command}: ${count}</ul>`
         })
 
       render(topCommand, document.getElementById("topCommand"))
@@ -58,22 +56,22 @@
         .sort((a, b) => b[1] - a[1])
         .slice(0, 10)
         .map(([group, count]) => {
-          return html`
-        <ul>${group}: ${count}</ul>
-        `
+          return html`<ul>${group}: ${count}</ul>`
         })
 
       render(topCommand, document.getElementById("topGroup"))
     }
 
-    function populateTimeChart(data) {
+    let myChart;
+    function createTimeChart(data) {
       var ctx = document.getElementById('myChart');
-      var myChart = new Chart(ctx, {
+      myChart = new Chart(ctx, {
         type: 'bar',
+        title: "timeshift",
         data: {
           labels: [...Array(24).keys()],
           datasets: [{
-            label: 'timeshift',
+            label: 'count all',
             data,
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
             borderColor: 'rgba(54, 162, 235, 1)',
@@ -91,16 +89,27 @@
             }]
           }
         }
-      });
+      })
     }
-    const interval = async function () {
-      const data = await fetch("http://ri.mk:3005/message-recorder/stat/json").then(res => res.json())
-      populateTimeChart(data.triggerHourSummary)
-      populateTopCommand(data.triggerCount)
-      populateTopGroup(data.groupCount)
+
+    function populateTimeChart(data){
+      const dataset = myChart.data.datasets.find(data => data.label === 'count all')
+      if (!dataset) console.error('no dataset')
+      dataset.data = data
+      myChart.update()
     }
-    window.setInterval(interval, 60 * 1000)
-    interval()
+
+    (function(){
+      createTimeChart()
+      const interval = async function () {
+        const data = await fetch("http://ri.mk:3005/message-recorder/stat/json").then(res => res.json())
+        populateTimeChart(data.triggerHourSummary)
+        populateTopCommand(data.triggerCount)
+        populateTopGroup(data.groupCount)
+      }
+      window.setInterval(interval, 60 * 1000)
+      interval()
+    })()
   </script>
 </body>
 
