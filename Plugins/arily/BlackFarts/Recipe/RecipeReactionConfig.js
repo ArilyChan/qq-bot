@@ -51,7 +51,7 @@ const recipeToString = function (order) {
   return message.join('').trim()
 }
 
-const reciept = async ({ command, meta, storage }) => {
+const recipe = async ({ command, meta, storage }) => {
   const [, req] = command
   if (!menuCompiled) await compileMenu({ storage })
   const message = []
@@ -87,60 +87,60 @@ function split (str, separator, limit) {
   return str
 }
 const addRecipe = async ({ command, meta, storage }, consumptionMethod = '吃') => {
-  const [, name, ...others] = command
-  const originalMenuNames = Object.keys(storage.originalMenu)
-  if (originalMenuNames.some(original => original === name)) return meta.$send('不能动这个!!')
-  // const recipe = others.filter(input => !input.startsWith('[CQ:image,')).join(' ')
-  // const cqImage = others.filter(input => input.startsWith('[CQ:image,')).join("\n")
-  let { recipeSection, cqImage } = others.join(' ').split('[CQ:image,').reduce((acc, startsWithCQImage, index) => {
-    if (index === 0 && !startsWithCQImage.startsWith('file=')) {
-      acc.recipeSection.push(startsWithCQImage.replace('\r', '\n'))
+  try {
+    const [, name, ...others] = command
+    const originalMenuNames = Object.keys(storage.originalMenu)
+    if (originalMenuNames.some(original => original === name)) return meta.$send('不能动这个!!')
+    let { recipeSection, cqImage } = others.join(' ').split('[CQ:image,').reduce((acc, startsWithCQImage, index) => {
+      if (index === 0 && !startsWithCQImage.startsWith('file=')) {
+        acc.recipeSection.push(startsWithCQImage.replace('\r', '\n'))
+        return acc
+      }
+      const [cqCode, rest] = split(startsWithCQImage, ']', 1)
+      acc.cqImage.push(`[CQ:image,${cqCode}]`)
+      if (rest) acc.recipeSection.push(rest.replace('\r', '\n'))
       return acc
+    }, { recipeSection: [], cqImage: [] })
+    recipeSection = recipeSection.join('\n').trim()
+    const [recipe, ...descriptions] = recipeSection.split('\n')
+    const description = descriptions.join('\n').trim()
+    cqImage = cqImage.join('\n').trim()
+    if (!recipe) return meta.$send('<menu> <recipe> [图片]')
+    const { Recipe: RecipeModel, Menu: MenuModel } = storage.menuModels
+    let menu = await MenuModel.findOne({ name }).exec()
+    if (!menu) {
+      menu = new MenuModel({ name })
+      menu = await menu.save()
     }
-    const [cqCode, rest] = split(startsWithCQImage, ']', 1)
-    acc.cqImage.push(`[CQ:image,${cqCode}]`)
-    if (rest) acc.recipeSection.push(rest.replace('\r', '\n'))
-    return acc
-  }, { recipeSection: [], cqImage: [] })
-  recipeSection = recipeSection.join('\n').trim()
-  const [recipe, ...descriptions] = recipeSection.split('\n')
-  const description = descriptions.join('\n').trim()
-  cqImage = cqImage.join('\n').trim()
-  if (!recipe) return meta.$send('<menu> <recipe> [图片]')
-  const { Recipe: RecipeModel, Menu: MenuModel } = storage.menuModels
-  let menu = await MenuModel.findOne({ name }).exec()
-  if (!menu) {
-    menu = new MenuModel({ name })
-    menu = await menu.save((err) => { if (err) console.log('menu error', err) })
-  }
-  // console.log(menu)
-  let newrecipe = await RecipeModel.findOne({ name: recipe, menu: menu._id }).exec()
-  if (newrecipe) return meta.$send('menu exists!')
-  const recipeContent = {
-    name: recipe,
-    description,
-    methodOfConsumption: consumptionMethod,
-    cqImage,
-    uploader: {
-      name: meta.sender.nickname,
-      qq: meta.sender.userId.toString()
-    },
-    menu: menu._id
-  }
-  newrecipe = new RecipeModel(recipeContent)
-  newrecipe.save((err, saved) => {
-    if (err) meta.$send(err)
-    else meta.$send('ok')
-    // newrecipe = saved.populate('menu')、
-    // newrecipe.menu = menu
-    if (!storage.menu[name]) storage.menu[name] = []
-    storage.menu[name].push(newrecipe.name)
-    compiledMenu.push({
-      ...recipeContent,
-      menu
+    // console.log(menu)
+    let newrecipe = await RecipeModel.findOne({ name: recipe, menu: menu._id }).exec()
+    if (newrecipe) return meta.$send('menu exists!')
+    const recipeContent = {
+      name: recipe,
+      description,
+      methodOfConsumption: consumptionMethod,
+      cqImage,
+      uploader: {
+        name: meta.sender.nickname,
+        qq: meta.sender.userId.toString()
+      },
+      menu: menu._id
+    }
+    newrecipe = new RecipeModel(recipeContent)
+    newrecipe.save((err, saved) => {
+      if (err) meta.$send(err)
+      else meta.$send('ok')
+      if (!storage.menu[name]) storage.menu[name] = []
+      storage.menu[name].push(newrecipe.name)
+      compiledMenu.push({
+        ...recipeContent,
+        menu
+      })
     })
-    // console.log(storage.menu[name], compiledMenu)
-  })
+  } catch (error) {
+    meta.$send('出了点问题。。。希望你能帮我把这份报错发给阿日')
+    meta.$send(error.stack)
+  }
 }
 
 const addMeal = (hi) => addRecipe(hi, '吃')
@@ -195,9 +195,9 @@ const removeRecipe = async ({ command, meta, storage }) => {
   if (ptrRecipe) compiledMenu.splice(ptrRecipe, 1)
 }
 module.exports = {
-  吃什麼: reciept,
-  吃什么: reciept,
-  吃啥: reciept,
+  吃什麼: recipe,
+  吃什么: recipe,
+  吃啥: recipe,
   加个菜: addRecipe,
   加個菜: addRecipe,
   加个吃的: addMeal,
