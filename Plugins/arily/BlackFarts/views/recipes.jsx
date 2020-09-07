@@ -1,3 +1,4 @@
+import propTypes from 'prop-types'
 const React = require('react')
 const DefaultLayout = require('./layouts/default.jsx')
 const Menu = require('./components/menu.jsx')
@@ -10,5 +11,8 @@ function HelloMessage (props) {
     </DefaultLayout>
   )
 }
-
+HelloMessage.propTypes = {
+  title: propTypes.stirng,
+  recipes: propTypes.array
+}
 module.exports = HelloMessage

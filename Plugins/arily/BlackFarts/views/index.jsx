@@ -1,12 +1,16 @@
-var React = require("react");
-var DefaultLayout = require("./layouts/default.jsx");
+import propTypes from 'prop-types'
+var React = require('react')
+var DefaultLayout = require('./layouts/default.jsx')
 
-function HelloMessage(props) {
+function HelloMessage (props) {
   return (
     <DefaultLayout title={props.title}>
       <div>Hello {props.name}</div>
     </DefaultLayout>
-  );
+  )
 }
-
-module.exports = HelloMessage;
+HelloMessage.propTypes = {
+  title: propTypes.stirng,
+  name: propTypes.string
+}
+module.exports = HelloMessage
