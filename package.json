@@ -1,13 +1,15 @@
 {
   "name": "qq-bot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "qq bot",
   "main": "index.js",
   "dependencies": {
     "@babel/preset-react": "^7.10.4",
     "blackfarts": "file:Plugins/arily/BlackFarts",
+    "ppysb-query-ripple": "github:ArilyChan/ppysb-query-ripple",
     "sb-bot-message-recorder": "file:Plugins/arily/recorder",
-    "sb-qq-bot-framework": "github:ArilyChan/sb-qq-bot-framework#lib"
+    "sb-qq-bot-framework": "github:ArilyChan/sb-qq-bot-framework#lib",
+    "sillychooser": "github:ArilyChan/sillyChooser"
   },
   "devDependencies": {
     "eslint": "^7.7.0",
