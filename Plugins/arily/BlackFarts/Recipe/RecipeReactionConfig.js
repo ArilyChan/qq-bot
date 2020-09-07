@@ -6,7 +6,6 @@ function random (items) {
 }
 
 const compileMenu = async ({ storage }) => {
-  // storage.menu = {}
   Object.entries(storage.originalMenu).map(([menu, recipes]) => {
     compiledMenu.push(...recipes.map(recipe => ({
       name: recipe,
@@ -23,7 +22,6 @@ const compileMenu = async ({ storage }) => {
   const RecipeModel = storage.menuModels.Recipe
   const all = await RecipeModel.find({}).populate('menu').exec().then(results => results.map(result => result.toObject()))
   const mixin = all.reduce((acc, recipe) => {
-    // if (!storage.menu[recipe.menu.name]) storage.menu[recipe.menu.name] = []
     if (!recipe || !recipe.menu) {
       console.log(recipe)
       return acc
