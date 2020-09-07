@@ -119,5 +119,7 @@ dist
 */.DS_Store
 .DS_Store
 
+.vscode/
 Plugins/arily/BlackFarts/Cabbage/menu/config/db.js
 config/koishi.js
+config/storage/
