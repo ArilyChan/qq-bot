@@ -11,15 +11,14 @@ try {
   const pluginLoader = require('sb-qq-bot-framework/lib/ContextPluginApply')
   const Loaded = pluginLoader(app, config.contextPlugins)
   // console.log(Loaded.webViews)
-Loaded.webViews.map(v => {
-  console.log(v.name, 'installed on', v.path)
-  webServer.use(v.path, v.expressApp)
-})
-webServer.listen(3005, () => console.log('Example app listening on port 3005!'))
+  Loaded.webViews.map(v => {
+    console.log(v.name, 'installed on', v.path)
+    webServer.use(v.path, v.expressApp)
+  })
+  webServer.listen(3005, () => console.log('Example app listening on port 3005!'))
 } catch (error) {
   console.log(error)
 }
-
 
 let count = 0
 const maxTries = 3
@@ -37,7 +36,3 @@ try {
   console.log('Max retries exceed. Quit now.')
   console.log(e)
 }
-
-// app.receiver.on('logger', (scope, message) => {
-//     console.log({ scope, message });
-// })
