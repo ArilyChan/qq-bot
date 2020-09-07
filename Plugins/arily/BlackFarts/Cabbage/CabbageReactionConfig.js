@@ -18,7 +18,6 @@ const usage = {
   吃啥: '❗️吃啥 [菜单] [特殊需求]',
   加个菜: '❗️加个菜 <菜单> <菜名> (换行)[中人的图片]',
   倒: '倒 <菜单> <菜名>'
-
 }
 const desc = {
   anotherelo: '查询elo',
@@ -35,7 +34,7 @@ const desc = {
   findTeamsByRank: '按照分段搜索队伍',
   say: '代理发言'
 }
-
+const mute = () => undefined
 const blackfart = ({ meta, app }) => {
   // const logger = app.logger('CabbageReaction');
   if (config.blackFartTo(meta.userId)) {
@@ -53,9 +52,14 @@ module.exports = {
   wakeup: '早',
   早: '早',
   status: StatusMe,
+  me: blackfart,
+  search: mute,
+  bp: mute,
   bpme: blackfart,
   pr: blackfart,
-  stat: blackfart,
+  recent: blackfart,
+  stat: mute,
+  statme: blackfart,
   say: async ({ command, meta, app }) => {
     const message = command.slice(1).join(' ').trim()
     if (config.isManager(meta.userId)) meta.$send(message)
