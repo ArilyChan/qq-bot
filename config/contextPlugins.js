@@ -29,6 +29,10 @@ module.exports = [
         type: 'local',
         path: 'Plugins/arily/recorder',
         subPlugin: 'slipper',
+        filter: [
+          meta => !meta.message.startsWith('*'),
+          meta => !meta.message.startsWith('今日运势')
+        ],
         priority: -1
       }]
   }
