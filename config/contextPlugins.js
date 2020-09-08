@@ -41,7 +41,7 @@ module.exports = [
         path: 'Plugins/exsper/sillyChooser',
         priority: 1,
         options: {
-          prefixs: ["!", "！"]
+          prefixs: ['!', '！']
         }
       }, {
         type: 'local',
@@ -50,7 +50,7 @@ module.exports = [
         options: {
           admin: [1234567], // 管理员自行添加
           database: path.join(__dirname, '/storage/ppysbQuery/database.db'), // __dirname为config文件夹
-          prefixs: ["*"]
+          prefixs: ['*']
         }
       }, {
         type: 'local',
