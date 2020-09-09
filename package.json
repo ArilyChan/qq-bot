@@ -6,11 +6,11 @@
   "dependencies": {
     "@babel/preset-react": "^7.10.4",
     "blackfarts": "file:Plugins/arily/BlackFarts",
-    "sb-bot-message-recorder": "file:Plugins/arily/recorder",
-    "sb-qq-bot-framework": "github:ArilyChan/sb-qq-bot-framework#lib",
-    "sillychooser-plugin": "file:Plugins/exsper/sillyChooser",
     "osuercalendar-plugin": "file:Plugins/exsper/osuerCalendar",
-    "ppysbquery-plugin": "file:Plugins/exsper/ppysbquery"
+    "ppysbquery-plugin": "file:Plugins/exsper/ppysbQuery",
+    "sb-bot-message-recorder": "file:Plugins/arily/recorder",
+    "sb-qq-bot-framework": "github:ArilyChan/sb-qq-bot-framework",
+    "sillychooser-plugin": "file:Plugins/exsper/sillyChooser"
   },
   "devDependencies": {
     "eslint": "^7.7.0",
