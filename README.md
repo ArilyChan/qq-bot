@@ -2,7 +2,7 @@
  
 ## 安装
 ```javascript
-cd sb-qq-bot-framework && npm install
+cd qq-bot && npm install
 ```
 复制并修改config/koishi.sample.js为config/koishi.js, 添加或修改需要的参数
 
