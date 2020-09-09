@@ -17,10 +17,14 @@
       <div id="topCommand" />
     </div>
     <div>
+      <h2>用户数量</h2>
+      <div id="userCount" />
+    </div>
+    <div>
       <h2>top group</h2>
       <div id="topGroup" />
     </div>
-    <div style="height:200px">
+    <div style="height:400px">
       <canvas id="myChart"></canvas>
     </div>
   </div>
@@ -28,6 +32,9 @@
   <script type="module">
     import { html, render } from 'https://unpkg.com/htm/preact/standalone.module.js'
 
+    function populateUserCount(users){
+      render(html`<h3>${Object.keys(users).length}</h3>`, document.getElementById('userCount'))
+    }
     function populateTopCommand(triggerCount) {
       const topCommand = Object.entries(triggerCount)
         .map(([command, count]) => {
@@ -54,7 +61,7 @@
     function populateTopGroup(triggerCount) {
       const topCommand = Object.entries(triggerCount)
         .sort((a, b) => b[1] - a[1])
-        .slice(0, 10)
+        .slice(0, 5)
         .map(([group, count]) => {
           return html`<ul>${group}: ${count}</ul>`
         })
@@ -70,19 +77,18 @@
         title: "timeshift",
         data: {
           labels: [...Array(24).keys()],
-          datasets: [{
-            label: 'count all',
-            data,
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-          }]
+          datasets: []
         },
         options: {
+          legend: false,
           responsive: true,
           maintainAspectRatio: false,
           scales: {
+            xAxes: [{
+              stacked: true
+            }],
             yAxes: [{
+              stacked: true,
               ticks: {
                 beginAtZero: true
               }
@@ -92,10 +98,29 @@
       })
     }
 
+    const dynamicColors = function () {
+      var r = Math.floor(Math.random() * 255);
+      var g = Math.floor(Math.random() * 255);
+      var b = Math.floor(Math.random() * 255);
+      return [r,g,b];
+    };
+
+    const rgba = ([r,g,b],a=1) =>{
+      return "rgb(" + r + "," + g + "," + b + "," + a + ")"
+    }
+
     function populateTimeChart(data){
-      const dataset = myChart.data.datasets.find(data => data.label === 'count all')
-      if (!dataset) console.error('no dataset')
-      dataset.data = data
+      myChart.data.datasets = []
+      Object.entries(data).map(([user, data]) =>{
+        const color = dynamicColors()
+        myChart.data.datasets.push({
+          label: user,
+          data,
+          backgroundColor: rgba(color,0.25),
+          borderColor: rgba([0,0,0],0.4),
+          borderWidth: 1
+        })
+      })
       myChart.update()
     }
 
@@ -103,9 +128,10 @@
       createTimeChart()
       const interval = async function () {
         const data = await fetch("http://ri.mk:3005/message-recorder/stat/json").then(res => res.json())
-        populateTimeChart(data.triggerHourSummary)
+        populateTimeChart(data.commandTriggerHourSummary)
         populateTopCommand(data.triggerCount)
         populateTopGroup(data.groupCount)
+        populateUserCount(data.userCount)
       }
       window.setInterval(interval, 60 * 1000)
       interval()
