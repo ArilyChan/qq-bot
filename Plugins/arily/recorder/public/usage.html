@@ -128,7 +128,7 @@
       createTimeChart()
       const interval = async function () {
         const data = await fetch("http://ri.mk:3005/message-recorder/stat/json").then(res => res.json())
-        populateTimeChart(data.userTriggerHourSummary)
+        populateTimeChart(data.commandTriggerHourSummary)
         populateTopCommand(data.triggerCount)
         populateTopGroup(data.groupCount)
         populateUserCount(data.userCount)
