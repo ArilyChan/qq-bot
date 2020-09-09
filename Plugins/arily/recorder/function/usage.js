@@ -2,7 +2,7 @@ module.exports = (storage, meta = null) => {
   const message = storage.messages
   const array = Array.from(message)
   const result = array.reduce((acc, [id, message]) => {
-    const { triggerCount, userCount, groupCount, userTriggerCount, triggerHourSummary, userTriggerHourSummary } = acc
+    const { triggerCount, groupCount, userTriggerCount, commandTriggerHourSummary } = acc
     const command = message.message.split(' ')
     if (command[0].startsWith('[')) command.slice(1)
     const first = command[0]
@@ -14,18 +14,19 @@ module.exports = (storage, meta = null) => {
     if (!triggerCount[first]) triggerCount[first] = 0
     triggerCount[first] += 1
 
-    if (!userCount[user]) userCount[user] = 0
-    userCount[user] += 1
+    // if (!userCount[user]) userCount[user] = 0
+    // userCount[user] += 1
 
     if (!groupCount[group]) groupCount[group] = 0
     groupCount[group] += 1
 
-    if (!triggerHourSummary[hour]) triggerHourSummary[hour] = 0
-    triggerHourSummary[hour] += 1
+    // if (!userTriggerHourSummary[user]) userTriggerHourSummary[user] = []
+    // if (!userTriggerHourSummary[user][hour]) userTriggerHourSummary[user][hour] = 0
+    // userTriggerHourSummary[user][hour] += 1
 
-    if (!userTriggerHourSummary[user]) userTriggerHourSummary[user] = []
-    if (!userTriggerHourSummary[user][hour]) userTriggerHourSummary[user][hour] = 0
-    userTriggerHourSummary[user][hour] += 1
+    if (!commandTriggerHourSummary[first]) commandTriggerHourSummary[first] = []
+    if (!commandTriggerHourSummary[first][hour]) commandTriggerHourSummary[first][hour] = 0
+    commandTriggerHourSummary[first][hour] += 1
 
     if (!userTriggerCount[user]) userTriggerCount[user] = {}
     if (!userTriggerCount[user][first]) userTriggerCount[user][first] = 0
@@ -33,11 +34,11 @@ module.exports = (storage, meta = null) => {
     return acc
   }, {
     triggerCount: {},
-    userCount: {},
+    // userCount: {},
     groupCount: {},
     userTriggerCount: {},
-    triggerHourSummary: [],
-    userTriggerHourSummary: {}
+    // userTriggerHourSummary: {},
+    commandTriggerHourSummary: {}
   })
   if (meta) meta.$send(JSON.stringify(result))
   return result
