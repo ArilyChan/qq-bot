@@ -7,7 +7,10 @@ module.exports.apply = (ctx, options) => {
       const message = meta.message
       const userId = meta.userId
       const reply = sc.apply(meta.selfId, userId, message)
-      if (reply) return meta.$send(`[CQ:at,qq=${userId}]` + '\n' + reply)
+      if (reply) {
+        if (meta.messageType !== 'private') return meta.$send(`[CQ:reply,id=${meta.messageId}]` + reply)
+        return meta.$send(reply)
+      }
       return next()
     } catch (ex) {
       console.log(ex)
