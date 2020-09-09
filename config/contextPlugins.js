@@ -1,5 +1,6 @@
 // const filters = require('../lib/filters')
 const path = require('path')
+const appDir = path.dirname(require.main.filename)
 const recipeFilter = require('./filters/group.blackFarts.recipe')
 
 const ContextBuilder = require('sb-qq-bot-framework/lib/contextBuilder')
@@ -31,8 +32,8 @@ module.exports = [
         path: 'Plugins/arily/recorder',
         subPlugin: 'slipper',
         filter: [
-          meta => !meta.message.startsWith('*'),
-          meta => !meta.message.startsWith('今日运势')
+          // meta => !meta.message.startsWith('*'),
+          // meta => !meta.message.startsWith('今日运势')
         ],
         priority: -1
 
@@ -49,7 +50,7 @@ module.exports = [
         priority: 3,
         options: {
           admin: [1234567], // 管理员自行添加
-          database: path.join(__dirname, '/storage/ppysbQuery/database.db'), // __dirname为config文件夹
+          database: path.join(appDir, 'Plugins/exsper/ppysbQuery/storage/database.db'), // __dirname为config文件夹
           prefixs: ['*']
         }
       }, {
@@ -62,7 +63,7 @@ module.exports = [
             blackList: [],
             whiteList: []
           },
-          eventFile: path.join(__dirname, '/storage/osuerCalendar/osuercalendar-events.json') // __dirname为config文件夹
+          eventFile: path.join(appDir, 'Plugins/exsper/osuerCalendar/osuercalendar-events.json') // __dirname为config文件夹
         }
       }
     ]
