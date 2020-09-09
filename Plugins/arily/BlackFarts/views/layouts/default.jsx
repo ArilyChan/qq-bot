@@ -26,7 +26,7 @@ function DefaultLayout (props) {
   )
 }
 DefaultLayout.propTypes = {
-  title: propTypes.stirng,
+  title: propTypes.string,
   children: propTypes.element
 }
 module.exports = DefaultLayout
