@@ -32,12 +32,15 @@
   <script type="module">
     import { html, render } from 'https://unpkg.com/htm/preact/standalone.module.js'
 
-    function mergeSame(arr){
-      return arr
-      .map(([command, count]) => {
-        if (command.startsWith("！")) command = `!${command.slice(1)}`
-        return [command, count]
-      })
+    function populateUserCount(users){
+      render(html`<h3>${Object.keys(users).length}</h3>`, document.getElementById('userCount'))
+    }
+    function populateTopCommand(triggerCount) {
+      const topCommand = Object.entries(triggerCount)
+        .map(([command, count]) => {
+          if (command.startsWith("！")) command = `!${command.slice(1)}`
+          return [command, count]
+        })
         .reduce((acc, [command, count]) => {
           let duplicated = acc.find(([_command]) => command === _command)
           if (!duplicated) {
@@ -47,12 +50,6 @@
           duplicated[1] += count
           return acc
         }, [])
-    }
-    function populateUserCount(users){
-      render(html`<h3>${Object.keys(users).length}</h3>`, document.getElementById('userCount'))
-    }
-    function populateTopCommand(triggerCount) {
-      const topCommand = mergeSame(Object.entries(triggerCount))
         .sort((a, b) => b[1] - a[1])
         .slice(0, 10)
         .map(([command, count]) => {
@@ -114,8 +111,7 @@
 
     function populateTimeChart(data){
       myChart.data.datasets = []
-      mergeSame(Object.entries(data))
-      .map(([user, data]) =>{
+      Object.entries(data).map(([user, data]) =>{
         const color = dynamicColors()
         myChart.data.datasets.push({
           label: user,
@@ -135,7 +131,7 @@
         populateTimeChart(data.commandTriggerHourSummary)
         populateTopCommand(data.triggerCount)
         populateTopGroup(data.groupCount)
-        populateUserCount(data.commandTriggerHourSummary)
+        populateUserCount(data.userCount)
       }
       window.setInterval(interval, 60 * 1000)
       interval()
