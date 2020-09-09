@@ -7,6 +7,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
     integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg=="
     crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script> -->
   <title>Usage</title>
 </head>
 
@@ -32,25 +33,42 @@
   <script type="module">
     import { html, render } from 'https://unpkg.com/htm/preact/standalone.module.js'
 
-    function mergeSame(arr){
+    function sumArrays(...arrays) {
+      const n = arrays.reduce((max, xs) => Math.max(max, xs.length), 0);
+      const result = Array.from({ length: n });
+      return result.map((_, i) => arrays.map(xs => xs[i] || 0).reduce((sum, x) => sum + x, 0));
+    }
+
+    function mergeSame(arr) {
       return arr
-      .map(([command, count]) => {
-        if (command.startsWith("！")) command = `!${command.slice(1)}`
-        return [command, count]
-      })
+        .map(([command, count]) => {
+          if (command.startsWith("！")) command = `!${command.slice(1)}`
+          return [command, count]
+        })
         .reduce((acc, [command, count]) => {
           let duplicated = acc.find(([_command]) => command === _command)
-          if (!duplicated) {
-            duplicated = [command, 0]
+          let exists = Boolean(duplicated)
+          if (!exists) {
+            duplicated = [command]
             acc.push(duplicated)
           }
-          duplicated[1] += count
+          if (Number.isInteger(count)) {
+            if (!exists) duplicated[1] = 0
+            duplicated[1] += count
+          }
+          else if (Array.isArray(count)) {
+            if (!exists) duplicated[1] = []
+            duplicated[1] = sumArrays(duplicated[1], count)
+          }
+          else console.log('wtf', duplicated[1], count)
           return acc
         }, [])
     }
-    function populateUserCount(users){
+
+    function populateUserCount(users) {
       render(html`<h3>${Object.keys(users).length}</h3>`, document.getElementById('userCount'))
     }
+
     function populateTopCommand(triggerCount) {
       const topCommand = mergeSame(Object.entries(triggerCount))
         .sort((a, b) => b[1] - a[1])
@@ -105,30 +123,45 @@
       var r = Math.floor(Math.random() * 255);
       var g = Math.floor(Math.random() * 255);
       var b = Math.floor(Math.random() * 255);
-      return [r,g,b];
-    };
+      return [r, g, b];
+    }
 
-    const rgba = ([r,g,b],a=1) =>{
+    const stringToRGB = function (str) {
+      var hash = 0;
+      if (str.length === 0) return hash;
+      for (var i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        hash = hash & hash;
+      }
+      var rgb = [0, 0, 0];
+      for (var i = 0; i < 3; i++) {
+        var value = (hash >> (i * 8)) & 255;
+        rgb[i] = value;
+      }
+      return rgb;
+    }
+
+    const rgba = ([r, g, b], a = 1) => {
       return "rgb(" + r + "," + g + "," + b + "," + a + ")"
     }
 
-    function populateTimeChart(data){
+    function populateTimeChart(data) {
       myChart.data.datasets = []
       mergeSame(Object.entries(data))
-      .map(([user, data]) =>{
-        const color = dynamicColors()
-        myChart.data.datasets.push({
-          label: user,
-          data,
-          backgroundColor: rgba(color,0.25),
-          borderColor: rgba([0,0,0],0.4),
-          borderWidth: 1
+        .map(([user, data]) => {
+          const color = stringToRGB(user)
+          myChart.data.datasets.push({
+            label: user,
+            data,
+            backgroundColor: rgba(color, 0.25),
+            borderColor: rgba([0, 0, 0], 0.4),
+            borderWidth: 1
+          })
         })
-      })
       myChart.update()
     }
 
-    (function(){
+    (function () {
       createTimeChart()
       const interval = async function () {
         const data = await fetch("http://ri.mk:3005/message-recorder/stat/json").then(res => res.json())
