@@ -1,4 +1,4 @@
-const SillyChooser = require('sillyChooser')
+const SillyChooser = require('sillychooser')
 module.exports.name = 'sillyChooser'
 module.exports.apply = (ctx, options) => {
   const sc = new SillyChooser(options)
