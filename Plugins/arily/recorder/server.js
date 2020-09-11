@@ -17,9 +17,7 @@ module.exports = (storage) => {
     })
   })
   app.get('/stat', (req, res) => {
-    res.render('stat', {
-      api: '/stat/json'
-    })
+    res.sendFile(path.join(__dirname, 'public/usage.html'))
   })
   app.get('/stat/json', async (req, res) => {
     // res.render('index', { name: 'John' })
