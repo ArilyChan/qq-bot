@@ -13,7 +13,7 @@ function HelloMessage (props) {
   )
 }
 HelloMessage.propTypes = {
-  title: propTypes.stirng,
-  recipes: propTypes.array
+  title: propTypes.string,
+  recipes: propTypes.object
 }
 module.exports = HelloMessage
