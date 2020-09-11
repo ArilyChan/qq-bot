@@ -7,6 +7,7 @@ mongoose.connect(config.url, {
 
 const MenuSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  nsfw: { type: Boolean, default: false },
   description: String,
   creator: {
     name: String,
@@ -17,6 +18,7 @@ const Menu = mongoose.model('Menu', MenuSchema)
 const RecipeSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: String,
+  nsfw: { type: Boolean, default: false },
   methodOfConsumption: { type: String, default: '吃' },
   cqImage: String,
   uploader: {
