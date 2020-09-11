@@ -9,13 +9,15 @@ const compileMenu = async ({ storage }) => {
   Object.entries(storage.originalMenu).map(([menu, recipes]) => {
     compiledMenu.push(...recipes.map(recipe => ({
       name: recipe,
+      nsfw: false,
       uploader: {
         name: 'arily',
         qq: '879724291'
       },
       menu: {
         _id: -1,
-        name: menu
+        name: menu,
+        nsfw: false
       }
     })))
   })
@@ -44,29 +46,54 @@ const recipeToString = function (order) {
   message.push(`${order.methodOfConsumption || '吃'}${order.name}\n`)
   if (order.description) message.push(order.description, '\n')
   if (order.uploader.name) message.push('推荐人: ', order.uploader.name, '\n')
-  if (order.uploader.qq) message.push('qq: ', order.uploader.qq, '\n')
+  // if (order.uploader.qq) message.push('qq: ', order.uploader.qq, '\n')
   if (order.cqImage) message.push(order.cqImage, '\n')
   return message.join('').trim()
+}
+
+const echoRecipe = function (meta, req, menu = compiledMenu) {
+  const message = []
+  if (meta.messageType !== 'private') message.push(`[CQ:reply,id=${meta.messageId}]`)
+  if (!req) {
+    // const order = random(compiledMenu)
+    // message.push(recipeToString(order))
+    message.push(randomRecipe(menu).toString())
+    return meta.$send(message.join('').trim())
+  } else {
+    // const filtered = compiledMenu.filter(recipe => recipe.menu.name === req)
+    // // console.log(filtered)
+    // if (filtered.length <= 0) return meta.$send('没东西')
+    // const order = random(filtered)
+    // message.push(recipeToString(order))
+    message.push(randomRecipe(menu, recipe => recipe.menu.name === req))
+    return meta.$send(message.join('').trim())
+  }
 }
 
 const recipe = async ({ command, meta, storage }) => {
   const [, req] = command
   if (!menuCompiled) await compileMenu({ storage })
-  const message = []
-  if (meta.messageType !== 'private') message.push(`[CQ:reply,id=${meta.messageId}]`)
-  if (!req) {
-    const order = random(compiledMenu)
-    message.push(recipeToString(order))
-    return meta.$send(message.join('').trim())
-  } else {
-    const filtered = compiledMenu.filter(recipe => recipe.menu.name === req)
-    // console.log(filtered)
-    if (filtered.length <= 0) return meta.$send('没东西')
-    const order = random(filtered)
-    message.push(recipeToString(order))
-    return meta.$send(message.join('').trim())
+  echoRecipe(meta, req, compiledMenu.filter(item => !item.nsfw && !item.menu.nsfw))
+}
+
+const nsfwRecipe = async ({ command, meta, storage }) => {
+  const [, req] = command
+  if (!menuCompiled) await compileMenu({ storage })
+  echoRecipe(meta, req, compiledMenu)
+}
+const randomRecipe = function (menu = compiledMenu, filter = () => true) {
+  const filteredRecipes = menu.filter(filter)
+  if (filteredRecipes.length <= 0) {
+    return {
+      toString: () => '没东西'
+    }
+  }
+  const order = random(filteredRecipes)
+  return {
+    toString: () => recipeToString(order)
   }
 }
+
 const refreshMenu = async ({ command, meta, storage }) => {
   compiledMenu.length = 0
   return compileMenu({ storage }).then(() => meta.$send('ok'))
@@ -192,10 +219,59 @@ const removeRecipe = async ({ command, meta, storage }) => {
   const ptrRecipe = compiledMenu.findIndex(r => r.name === recipe)
   if (ptrRecipe) compiledMenu.splice(ptrRecipe, 1)
 }
+
+const markNSFWMenu = async function (storage, name, isNSFW) {
+  const { Menu: MenuModel } = storage.menuModels
+  const menu = await MenuModel.findOne({ name }).exec()
+  if (!menu) return false
+  menu.nsfw = isNSFW
+  await menu.save()
+  compiledMenu
+    .filter(recipe => recipe.menu._id === menu._id)
+    .map(recipe => { recipe.menu.nsfw = isNSFW })
+  return true
+}
+
+const markNSFWMenuBot = async function ({ command, meta, storage }, isNSFW) {
+  const [, name] = command
+  if (!name) return meta.$send('<menu>')
+  const result = await markNSFWMenu(storage, name, isNSFW)
+  if (!result) meta.$send('menu non-exists')
+  meta.$send('should work')
+}
+
+const markNSFWRecipe = async function (storage, menu, recipe, meta, isNSFW) {
+  const { Recipe, Menu } = storage.menuModels
+  menu = await Menu.findOne({ name: menu }).exec()
+  if (!menu) return meta.$send('there\'s no such menu')
+
+  recipe = await Recipe.findOne({ name: recipe, menu: menu._id }).exec()
+  if (!recipe) return meta.$send('there\'s no such recipe in the menu')
+
+  recipe.nsfw = isNSFW
+  await recipe.save()
+
+  const inCompiledMenu = compiledMenu.find(r => r.name === recipe.name && r.menu.name === menu.name)
+  if (inCompiledMenu) inCompiledMenu.nsfw = isNSFW
+  meta.$send('好了好了我知道了')
+}
+
+const markNSFWRecipeBot = async function ({ command, meta, storage }, isNSFW) {
+  let [, menu, ...recipe] = command
+  recipe = recipe.join(' ')
+  if (!recipe) return meta.$send('<menu> <recipe>')
+  markNSFWRecipe(storage, menu, recipe, meta, isNSFW)
+}
 module.exports = {
   吃什麼: recipe,
   吃什么: recipe,
   吃啥: recipe,
+  吃点刺激的: nsfwRecipe,
+  吃點刺激的: nsfwRecipe,
+  'menu.marknsfw': (input) => markNSFWMenuBot(input, true),
+  'recipe.marknsfw': (input) => markNSFWRecipeBot(input, true),
+  'menu.marksfw': (input) => markNSFWMenuBot(input, false),
+  'recipe.marksfw': (input) => markNSFWRecipeBot(input, false),
   加个菜: addRecipe,
   加個菜: addRecipe,
   加个吃的: addMeal,
