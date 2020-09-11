@@ -5,6 +5,19 @@ function random (items) {
   return items[Math.floor(Math.random() * items.length)]
 }
 
+function split (str, separator, limit) {
+  str = str.split(separator)
+
+  if (str.length > limit) {
+    var ret = str.splice(0, limit)
+    ret.push(str.join(separator))
+
+    return ret
+  }
+
+  return str
+}
+
 const compileMenu = async ({ storage }) => {
   Object.entries(storage.originalMenu).map(([menu, recipes]) => {
     compiledMenu.push(...recipes.map(recipe => ({
@@ -99,18 +112,6 @@ const refreshMenu = async ({ command, meta, storage }) => {
   return compileMenu({ storage }).then(() => meta.$send('ok'))
 }
 
-function split (str, separator, limit) {
-  str = str.split(separator)
-
-  if (str.length > limit) {
-    var ret = str.splice(0, limit)
-    ret.push(str.join(separator))
-
-    return ret
-  }
-
-  return str
-}
 const addRecipe = async ({ command, meta, storage }, consumptionMethod = '吃') => {
   try {
     const [, name, ...others] = command
@@ -137,7 +138,6 @@ const addRecipe = async ({ command, meta, storage }, consumptionMethod = '吃') 
       menu = new MenuModel({ name })
       menu = await menu.save()
     }
-    // console.log(menu)
     let newrecipe = await RecipeModel.findOne({ name: recipe, menu: menu._id }).exec()
     if (newrecipe) return meta.$send('menu exists!')
     const recipeContent = {
@@ -232,14 +232,6 @@ const markNSFWMenu = async function (storage, name, isNSFW) {
   return true
 }
 
-const markNSFWMenuBot = async function ({ command, meta, storage }, isNSFW) {
-  const [, name] = command
-  if (!name) return meta.$send('<menu>')
-  const result = await markNSFWMenu(storage, name, isNSFW)
-  if (!result) meta.$send('menu non-exists')
-  meta.$send('should work')
-}
-
 const markNSFWRecipe = async function (storage, menu, recipe, meta, isNSFW) {
   const { Recipe, Menu } = storage.menuModels
   menu = await Menu.findOne({ name: menu }).exec()
@@ -256,12 +248,21 @@ const markNSFWRecipe = async function (storage, menu, recipe, meta, isNSFW) {
   meta.$send('好了好了我知道了')
 }
 
+const markNSFWMenuBot = async function ({ command, meta, storage }, isNSFW) {
+  const [, name] = command
+  if (!name) return meta.$send('<menu>')
+  const result = await markNSFWMenu(storage, name, isNSFW)
+  if (!result) meta.$send('menu non-exists')
+  meta.$send('should work')
+}
+
 const markNSFWRecipeBot = async function ({ command, meta, storage }, isNSFW) {
   let [, menu, ...recipe] = command
   recipe = recipe.join(' ')
   if (!recipe) return meta.$send('<menu> <recipe>')
   markNSFWRecipe(storage, menu, recipe, meta, isNSFW)
 }
+
 module.exports = {
   吃什麼: recipe,
   吃什么: recipe,
