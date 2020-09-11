@@ -16,6 +16,7 @@ const usage = {
   // findTeamsByRank: `【叹号】(team.findbyrank, findteamsbyrank, findteambyrank) <分段>`,
   say: '❗️say <...something>',
   吃啥: '❗️吃啥 [菜单] [特殊需求]',
+  吃点刺激的: '❗️吃点刺激的 [菜单] [特殊需求]',
   加个菜: '❗️加个菜 <菜单> <菜名> (换行)[中人的图片]',
   倒: '❗️倒 <菜单> <菜名>',
   'menu.marknsfw': '❗️menu.marknsfw <菜单>',
