@@ -1,7 +1,8 @@
-module.exports = async (storage, meta = null) => {
+module.exports = async (storage) => {
   const message = storage.messages
-  const array = await message.find({}).toArray()
-  const result = array.reduce((acc, [id, message]) => {
+  if (!storage.inited) return {}
+  const array = await message.find().toArray()
+  const result = array.reduce((acc, message) => {
     const { triggerCount, groupCount, userTriggerCount, commandTriggerHourSummary } = acc
     const command = message.message.split(' ')
     if (command[0].startsWith('[')) command.slice(1)
@@ -40,6 +41,5 @@ module.exports = async (storage, meta = null) => {
     // userTriggerHourSummary: {},
     commandTriggerHourSummary: {}
   })
-  if (meta) meta.$send(JSON.stringify(result))
   return result
 }

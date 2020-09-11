@@ -6,6 +6,7 @@ class storage {
     this.cache = []
     this.initdb()
     // this.maxEntries = options.maxEntries || 10384
+    this.inited = false
   }
 
   async initdb () {
@@ -14,6 +15,7 @@ class storage {
     this.events = db.collection('events')
     this.notices = db.collection('notices')
     this.requests = db.collection('requests')
+    this.inited = true
   }
 
   copy (meta) {
@@ -21,7 +23,6 @@ class storage {
   }
 
   record (meta) {
-    // meta = this.copy(meta)
     switch (meta.postType) {
       case 'message': {
         // this.messages.set(meta.messageId, meta)
@@ -35,6 +36,7 @@ class storage {
           timeout: setTimeout(() => {
             const self = this.cache.findIndex(op => op.meta.messageId === meta.messageId)
             this.cache.splice(self, 1)
+            if (!this.inited) return
             this.messages.insertOne(this.copy(meta))
             // meta.$send(`inserted ${meta.messageId}`)
           }, 1000)
@@ -63,6 +65,7 @@ class storage {
           this.cache.splice(index, 1)
           // meta.$send(`canceled the schedule of insertion ${meta.messageId}`)
         } else {
+          if (!this.inited) return
           this.messages.deleteOne({
             messageId: meta.messageId,
             time: meta.time
