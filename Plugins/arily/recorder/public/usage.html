@@ -43,7 +43,7 @@
       return arr
         .map(([command, count]) => {
           if (command.startsWith("！")) command = `!${command.slice(1)}`
-          return [command, count]
+          return [command.toLowerCase(), count]
         })
         .reduce((acc, [command, count]) => {
           let duplicated = acc.find(([_command]) => command === _command)
@@ -63,6 +63,10 @@
           else console.log('wtf', duplicated[1], count)
           return acc
         }, [])
+        .sort((a,b) => {
+          if (Number.isInteger(b[1])) return b[1] - a[1]
+          else return b[1].reduce((acc, cur) => acc + Number(cur)) - a[1].reduce((acc,cur) => acc + Number(cur))
+        })
     }
 
     function populateUserCount(users) {
@@ -71,10 +75,9 @@
 
     function populateTopCommand(triggerCount) {
       const topCommand = mergeSame(Object.entries(triggerCount))
-        .sort((a, b) => b[1] - a[1])
         .slice(0, 10)
         .map(([command, count]) => {
-          return html`<ul>${command}: ${count}</ul>`
+          return html`<ul><span style="color:${rgba(stringToRGB(command))}">${command}</span>: ${count}</ul>`
         })
 
       render(topCommand, document.getElementById("topCommand"))
@@ -111,7 +114,7 @@
             yAxes: [{
               stacked: true,
               ticks: {
-                beginAtZero: true
+                beginAtZero: false
               }
             }]
           }

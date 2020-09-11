@@ -1,7 +1,8 @@
 const Storage = require('./storage')
 const web = require('./server')
 let webInited = false
-const storage = new Storage()
+let storage
+
 // 在 a.js, b.js 中编写两个不同的插件
 const recorder = require('./recorder')
 const slipper = require('./slipper')
@@ -11,6 +12,7 @@ module.exports.recorder = recorder
 module.exports.slipper = slipper
 module.exports.Storage = Storage
 module.exports.init = (path, options) => {
+  if (!storage) storage = new Storage(options)
   return storage
 }
 module.exports.webView = (options, storage) => {
