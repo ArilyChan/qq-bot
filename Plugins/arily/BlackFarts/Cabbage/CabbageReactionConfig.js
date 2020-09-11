@@ -18,10 +18,10 @@ const usage = {
   吃啥: '❗️吃啥 [菜单] [特殊需求]',
   加个菜: '❗️加个菜 <菜单> <菜名> (换行)[中人的图片]',
   倒: '❗️倒 <菜单> <菜名>',
-  'menu.marknsfw': (input) => '❗️menu.marknsfw <菜单>',
-  'recipe.marknsfw': (input) => '❗️recipe.marknsfw <菜单> <菜名>',
-  'menu.marksfw': (input) => '❗️menu.marksfw <菜单>',
-  'recipe.marksfw': (input) => '❗️recipe.marksfw <菜单> <菜名>'
+  'menu.marknsfw': '❗️menu.marknsfw <菜单>',
+  'recipe.marknsfw': '❗️recipe.marknsfw <菜单> <菜名>',
+  'menu.marksfw': '❗️menu.marksfw <菜单>',
+  'recipe.marksfw': '❗️recipe.marksfw <菜单> <菜名>'
 }
 const desc = {
   anotherelo: '查询elo',
@@ -37,10 +37,10 @@ const desc = {
   findTeam: '找队伍',
   findTeamsByRank: '按照分段搜索队伍',
   say: '代理发言',
-  'menu.marknsfw': (input) => '标记菜单为nsfw',
-  'recipe.marknsfw': (input) => '标记料理为nsfw',
-  'menu.marksfw': (input) => '取消菜单的nfsw标记',
-  'recipe.marksfw': (input) => '取消料理的nsfw标记'
+  'menu.marknsfw': '标记菜单为nsfw',
+  'recipe.marknsfw': '标记料理为nsfw',
+  'menu.marksfw': '取消菜单的nfsw标记',
+  'recipe.marksfw': '取消料理的nsfw标记'
 }
 const mute = () => undefined
 const blackfart = ({ meta, app }) => {
