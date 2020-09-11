@@ -35,7 +35,7 @@ class storage {
           timeout: setTimeout(() => {
             const self = this.cache.findIndex(op => op.meta.messageId === meta.messageId)
             this.cache.splice(self, 1)
-            this.messages.insertOne(meta)
+            this.messages.insertOne(this.copy(meta))
             // meta.$send(`inserted ${meta.messageId}`)
           }, 1000)
         })

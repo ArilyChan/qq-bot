@@ -1,3 +1,4 @@
+require('dotenv').config()
 const path = require('path')
 const appDir = path.dirname(require.main.filename)
 const webServer = require('sb-qq-bot-framework/lib/WebServer')
