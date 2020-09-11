@@ -26,6 +26,11 @@ module.exports = [
         type: 'local',
         path: 'Plugins/arily/recorder',
         subPlugin: 'recorder',
+        options: {
+          db: {
+            uri: process.env.RECORDER_DB_URI
+          }
+        },
         priority: 9999
       }, {
         type: 'local',

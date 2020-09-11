@@ -21,9 +21,9 @@ module.exports = (storage) => {
       api: '/stat/json'
     })
   })
-  app.get('/stat/json', (req, res) => {
+  app.get('/stat/json', async (req, res) => {
     // res.render('index', { name: 'John' })
-    res.json(require('./function/usage')(storage))
+    res.json(await require('./function/usage')(storage))
   })
   // app.use('/example', require('./example'))
 
