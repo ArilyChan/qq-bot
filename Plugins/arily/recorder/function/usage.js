@@ -1,6 +1,6 @@
-module.exports = (storage, meta = null) => {
+module.exports = async (storage, meta = null) => {
   const message = storage.messages
-  const array = Array.from(message)
+  const array = await message.find({}).toArray()
   const result = array.reduce((acc, [id, message]) => {
     const { triggerCount, groupCount, userTriggerCount, commandTriggerHourSummary } = acc
     const command = message.message.split(' ')
