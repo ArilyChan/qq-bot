@@ -7,7 +7,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
     integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg=="
     crossorigin="anonymous"></script>
-    <!-- <script src="https://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script> -->
+  <!-- <script src="https://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script> -->
   <title>Usage</title>
 </head>
 
@@ -32,6 +32,7 @@
 
   <script type="module">
     import { html, render } from 'https://unpkg.com/htm/preact/standalone.module.js'
+    let myChart;
 
     function sumArrays(...arrays) {
       const n = arrays.reduce((max, xs) => Math.max(max, xs.length), 0);
@@ -63,9 +64,9 @@
           else console.log('wtf', duplicated[1], count)
           return acc
         }, [])
-        .sort((a,b) => {
+        .sort((a, b) => {
           if (Number.isInteger(b[1])) return b[1] - a[1]
-          else return b[1].reduce((acc, cur) => acc + Number(cur)) - a[1].reduce((acc,cur) => acc + Number(cur))
+          else return b[1].reduce((acc, cur) => acc + Number(cur)) - a[1].reduce((acc, cur) => acc + Number(cur))
         })
     }
 
@@ -93,7 +94,6 @@
       render(topCommand, document.getElementById("topGroup"))
     }
 
-    let myChart;
     function createTimeChart(data) {
       var ctx = document.getElementById('myChart');
       myChart = new Chart(ctx, {
