@@ -6,6 +6,7 @@
   "dependencies": {
     "@babel/preset-react": "^7.10.4",
     "blackfarts": "file:Plugins/arily/BlackFarts",
+    "dotenv": "^8.2.0",
     "osuercalendar-plugin": "file:Plugins/exsper/osuerCalendar",
     "ppysbquery-plugin": "file:Plugins/exsper/ppysbQuery",
     "sb-bot-message-recorder": "file:Plugins/arily/recorder",

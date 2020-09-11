@@ -1,4 +1,4 @@
-const analyzeUsage = require('./function/usage')
+// const analyzeUsage = require('./function/usage')
 exports.name = 'recorder recorder'
 exports.apply = (ctx, options, storage) => {
   if (!storage) throw new Error('no storage attached')
@@ -10,9 +10,9 @@ exports.apply = (ctx, options, storage) => {
     // const atMe = () => meta.message.startsWith(`[CQ:at,qq=${meta.selfId}]`)
     try {
       // if (prefix() || nickname() || atMe()) {
-      if (meta.message.includes('recorder.print')) return console.log(storage)
+      // if (meta.message.includes('recorder.print')) return console.log(storage)
 
-      if (meta.message.includes('usage')) return analyzeUsage(storage, meta)
+      // if (meta.message.includes('usage')) return analyzeUsage(storage, meta)
 
       storage.record(meta)
       // }
