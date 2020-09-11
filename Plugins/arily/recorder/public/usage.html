@@ -13,6 +13,9 @@
 
 <body>
   <div>
+    <div style="height:400px">
+      <canvas id="myChart"></canvas>
+    </div>
     <div>
       <h2>top command</h2>
       <div id="topCommand"></div>
@@ -24,9 +27,6 @@
     <div>
       <h2>top group</h2>
       <div id="topGroup"></div>
-    </div>
-    <div style="height:400px">
-      <canvas id="myChart"></canvas>
     </div>
   </div>
 
@@ -44,10 +44,10 @@
       return arr
         .map(([command, count]) => {
           if (command.startsWith("！")) command = `!${command.slice(1)}`
-          if(command.includes("#")) command = command.split("#")[0]
-          if(command.includes(".")) command = command.split(".")[0]
-          if(command.includes(":")) command = command.split(":")[0]
-          if(command.includes(",")) command = command.split(",")[0]
+          if (command.includes("#")) command = command.split("#")[0]
+          if (command.includes(".")) command = command.split(".")[0]
+          if (command.includes(":")) command = command.split(":")[0]
+          if (command.includes(",")) command = command.split(",")[0]
           return [command.toLowerCase(), count]
         })
         .reduce((acc, [command, count]) => {
