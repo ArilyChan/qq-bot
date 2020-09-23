@@ -27,6 +27,7 @@ module.exports = (restrict, ...groups) => {
         meta.$send('好,再试试吧')
         return false
       }
+      meta.$send('收到了消息但是没找到时间')
     }
 
     // allow if not in restriced times
