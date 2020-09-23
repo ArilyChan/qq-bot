@@ -16,11 +16,8 @@ const setUserTimezone = function (userId, currentHour) {
 }
 module.exports = (restrict, ...groups) => {
   return meta => recipeFilter(...groups)(meta).then(result => {
-    // allow if not related to this filter
-    if (result) return result
-
     // if user is setting the timezone
-    if (meta.$parsed.message.startsWith('我这现在')) {
+    if (isRestrictedTime(restrict) && meta.message.startsWith('我这现在')) {
       const firstNumber = meta.$parsed.message.match(/\d+/)[0]
       if (firstNumber) {
         setUserTimezone(meta.userId, firstNumber)
@@ -29,6 +26,9 @@ module.exports = (restrict, ...groups) => {
       }
       meta.$send('收到了消息但是没找到时间')
     }
+
+    // allow if not related to this filter
+    if (result) return result
 
     // allow if not in restriced times
     if (!isRestrictedTime(restrict)) return true
