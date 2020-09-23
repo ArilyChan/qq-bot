@@ -20,7 +20,7 @@ module.exports = (restrict, ...groups) => {
     if (result) return result
 
     // if user is setting the timezone
-    if (result && meta.$parsed.message.startsWith('我这现在')) {
+    if (meta.$parsed.message.startsWith('我这现在')) {
       const firstNumber = meta.$parsed.message.match(/\d+/)[0]
       if (firstNumber) {
         setUserTimezone(meta.userId, firstNumber)
