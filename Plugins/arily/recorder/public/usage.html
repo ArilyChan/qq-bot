@@ -50,7 +50,7 @@
           if (command.includes(",")) command = command.split(",")[0]
           return [command.toLowerCase(), count]
         })
-        .filter(([command, count]) => command !== "!")
+        .filter(([command, count]) => command !== "!" && command !== "")
         .reduce((acc, [command, count]) => {
           let duplicated = acc.find(([_command]) => command === _command)
           let exists = Boolean(duplicated)
@@ -149,17 +149,18 @@
       return rgb;
     }
 
-    const rgba = ([r, g, b], a = 1) => {
+    const rgba = function([r, g, b], a = 1) {
       return "rgb(" + r + "," + g + "," + b + "," + a + ")"
     }
 
     function populateTimeChart(data) {
       myChart.data.datasets = []
       mergeSame(Object.entries(data))
-        .map(([user, data]) => {
-          const color = stringToRGB(user)
+        .map(([command, data]) => {
+          const color = stringToRGB(command)
+          console.log(command, color)
           myChart.data.datasets.push({
-            label: user,
+            label: command,
             data,
             backgroundColor: rgba(color, 0.25),
             borderColor: rgba([0, 0, 0], 0.4),
