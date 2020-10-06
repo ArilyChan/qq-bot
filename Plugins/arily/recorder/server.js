@@ -1,7 +1,14 @@
 const express = require('express')
 const path = require('path')
+const usage = require('./function/usage')
 
 const app = express()
+let usageUpdating = false
+let usageCache = []
+async function updateUsageCache (storage) {
+  const data = await require('./function/usage')(storage)
+  usageCache = [new Date(), data]
+}
 
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'jsx')
@@ -20,8 +27,14 @@ module.exports = (storage) => {
     res.sendFile(path.join(__dirname, 'public/usage.html'))
   })
   app.get('/stat/json', async (req, res) => {
-    // res.render('index', { name: 'John' })
-    res.json(await require('./function/usage')(storage))
+    const now = new Date()
+    if (!usageCache[0]) await updateUsageCache(storage)
+    res.json(usageCache[1])
+    if (now.getTime() - usageCache[0].getTime() > 1000 * 60 * 60 && !usageUpdating) {
+      usageUpdating = true
+      await updateUsageCache(storage)
+      usageUpdating = false
+    }
   })
   // app.use('/example', require('./example'))
 
