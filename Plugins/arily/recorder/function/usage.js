@@ -3,11 +3,11 @@ module.exports = async (storage) => {
   if (!storage.inited) return {}
   const array = await message.find().toArray()
   const result = array.reduce((acc, message) => {
-    const { triggerCount, groupCount, userTriggerCount, commandTriggerHourSummary } = acc
+    const { triggerCount, groupCount, commandTriggerHourSummary } = acc
     const command = message.message.split(' ')
     if (command[0].startsWith('[')) command.slice(1)
     const first = command[0]
-    const user = message.userId || -1
+    // const user = message.userId || -1
     const group = message.groupId || -1
     const time = new Date(message.time * 1000)
     const hour = time.getHours()
@@ -29,15 +29,15 @@ module.exports = async (storage) => {
     if (!commandTriggerHourSummary[first][hour]) commandTriggerHourSummary[first][hour] = 0
     commandTriggerHourSummary[first][hour] += 1
 
-    if (!userTriggerCount[user]) userTriggerCount[user] = {}
-    if (!userTriggerCount[user][first]) userTriggerCount[user][first] = 0
-    userTriggerCount[user][first] += 1
+    // if (!userTriggerCount[user]) userTriggerCount[user] = {}
+    // if (!userTriggerCount[user][first]) userTriggerCount[user][first] = 0
+    // userTriggerCount[user][first] += 1
     return acc
   }, {
     triggerCount: {},
     // userCount: {},
     groupCount: {},
-    userTriggerCount: {},
+    // userTriggerCount: {},
     // userTriggerHourSummary: {},
     commandTriggerHourSummary: {}
   })
