@@ -1,6 +1,6 @@
 const express = require('express')
 const path = require('path')
-const usage = require('./function/usage')
+// const usage = require('./function/usage')
 
 const app = express()
 let usageUpdating = false
