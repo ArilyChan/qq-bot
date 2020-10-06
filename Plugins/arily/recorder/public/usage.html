@@ -50,6 +50,7 @@
           if (command.includes(",")) command = command.split(",")[0]
           return [command.toLowerCase(), count]
         })
+        .filter(([command, count]) => command !== "!")
         .reduce((acc, [command, count]) => {
           let duplicated = acc.find(([_command]) => command === _command)
           let exists = Boolean(duplicated)
@@ -177,7 +178,7 @@
         populateTopGroup(data.groupCount)
         populateUserCount(data.commandTriggerHourSummary)
       }
-      window.setInterval(interval, 60 * 1000)
+      window.setInterval(interval, 60 * 1000 * 60)
       interval()
     })()
   </script>
