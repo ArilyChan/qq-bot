@@ -5,7 +5,7 @@ class Activity {
     this.qqId = qqId
     this.today = new Date()
     this.iday = this.today.getFullYear() * 10000 + (this.today.getMonth() + 1) * 100 + this.today.getDate()
-    this.seed = this.qqId * this.iday
+    this.seed = this.qqId + this.iday
 
     this.luck = events.luck
     this.mods = events.mods
@@ -50,6 +50,7 @@ class Activity {
   }
 
   random (seed, max) { // int [1,max]
+    this.seed = this.seed / 2
     seed = (seed * 9301 + 49297) % 233280
     return Math.ceil(seed / 233280.0 * max)
   }
