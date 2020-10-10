@@ -40,7 +40,7 @@ const desc = {
   say: '代理发言',
   'menu.marknsfw': '标记菜单为nsfw',
   'recipe.marknsfw': '标记料理为nsfw',
-  'menu.marksfw': '取消菜单的nfsw标记',
+  'menu.marksfw': '取消菜单的nsfw标记',
   'recipe.marksfw': '取消料理的nsfw标记'
 }
 const mute = () => undefined
