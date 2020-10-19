@@ -3,6 +3,8 @@ const fetch = require('node-fetch')
 const he = require('he')
 const { getOsuApi, addPlus, timeoutSignal } = require('../utils/utils')
 const { URLSearchParams } = require('url')
+
+const CQCode = require('cqcode-builder')
 // const moment = require('moment');
 // const osu = require('node-osu');
 // const Beatmap = require("./node-osu/lib/base/Beatmap");
@@ -91,7 +93,7 @@ async function getUserByHandle (handle) {
 const uploadElo = async ({ command, meta, app }) => {
   // const logger = app.logger('CabbageReaction');
   const message = []
-  if (meta.messageType !== 'private') message.push(`[CQ:at,qq=${meta.userId}]`)
+  if (meta.messageType !== 'private') message.push(new CQCode.At().qq(meta.userId))
   try {
     if (command[1] === undefined || command[1] === '') throw new NeedHelps()
     const matchID = command[1]
@@ -114,9 +116,9 @@ const uploadElo = async ({ command, meta, app }) => {
     setImmediate(async (response, meta) => {
       if (response.code === 10001) {
         const updateResult = await E.matches.calculateElo({ signal: timeoutSignal(20) })
-        meta.$send(`[CQ:at,qq=${meta.userId}] ${updateResult.message}`)
+        meta.$send(`${new CQCode.At().qq(meta.userId)} ${updateResult.message}`)
         const message = []
-        if (meta.messageType !== 'private') message.push(`[CQ:at,qq=${meta.userId}]`)
+        if (meta.messageType !== 'private') message.push(new CQCode.At().qq(meta.userId))
         try {
           message.push(await (await getMatchEloChangeWithOsuUser(matchID)).toString())
           meta.$send(message.join('\n'))
@@ -405,7 +407,7 @@ const uploadElo = async ({ command, meta, app }) => {
 const dad = async function ({ command, meta, app }) {
   // const logger = app.logger('CabbageReaction')
   const message = []
-  if (meta.messageType !== 'private') message.push(`[CQ:at,qq=${meta.userId}]`)
+  if (meta.messageType !== 'private') message.push(new CQCode.At().qq(meta.userId))
   try {
     let user = command.slice(1).join(' ').trim()
     user = he.decode(user)
@@ -459,7 +461,7 @@ async function getMatchEloChangeWithOsuUser (matchId) {
 }
 async function sendMatchResult ({ meta, command }) {
   const message = []
-  if (meta.messageType !== 'private') message.push(`[CQ:at,qq=${meta.userId}]`)
+  if (meta.messageType !== 'private') message.push(new CQCode.At().qq(meta.userId))
   try {
     const matchId = command[1]
     if (!(matchId >>> 0 === parseFloat(matchId))) throw new NeedHelps()
@@ -514,10 +516,10 @@ const elo = async ({ command, meta, app }) => {
 
     const res = Object.assign(user, elo, recentPlay /* { recentMatch } */)
 
-    meta.$send(`[CQ:at,qq=${meta.userId}] \n${await eloTable(res)}`)
+    meta.$send(`${new CQCode.At().qq(meta.userId)} \n${await eloTable(res)}`)
   } catch (Error) {
     const append = handleErrorMessage(Error, 'elo')
-    meta.$send(`[CQ:at,qq=${meta.userId}] ${append}`)
+    meta.$send(`${new CQCode.At().qq(meta.userId)} ${append}`)
     throw Error
   }
 }
