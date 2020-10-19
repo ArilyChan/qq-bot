@@ -8,14 +8,14 @@ RollReaction.prototype.reactTo = function ({ command, meta }) {
   try {
     const rand = Math.round(Math.random())
     const words = command.join(' ').trim()
-    const anyMagic = /([\(（]?.*[\)），,])?(.+)([不没])(.+)/
+    const anyMagic = /([(（]?.*[)），,])?(.+)([不没])(.+)/
     const wordMatch = /(.*) or not(.)?/
 
     let matches = anyMagic.exec(words)
     // console.log(matches);
     if (matches != null &&
-            matches[2] != '' &&
-            matches[4] != '' &&
+            matches[2] !== '' &&
+            matches[4] !== '' &&
             // same start is required to filter unneeded rolls
             matches[4].startsWith(matches[2][0]) &&
             // reflect attack to cabbage
