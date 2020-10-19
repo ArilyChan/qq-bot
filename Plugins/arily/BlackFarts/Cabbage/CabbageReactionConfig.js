@@ -1,3 +1,4 @@
+const CQ = require('cqcode-builder')
 const StatusMe = require('./StatusMe')
 const config = require('./cabbageReactionUser')
 
@@ -55,6 +56,11 @@ function helps ({ meta, app }) {
   const helpcontents = Object.entries(usage).map(([name, usage]) => `${usage}: ${(desc[name] !== undefined) ? desc[name] : '未添加命令说明'}`)
   meta.$send(helpcontents.join('\n'))
 }
+
+function poke ({ command, meta, app }) {
+  const qq = command.slice(1).join(' ').trim()
+  meta.$send(new CQ.Poke().qq(qq))
+}
 module.exports = {
   help: helps,
   sleep: '昨天不是刚睡过吗？怎么又要睡',
@@ -69,6 +75,7 @@ module.exports = {
   recent: blackfart,
   stat: mute,
   statme: blackfart,
+  poke,
   say: async ({ command, meta, app }) => {
     const message = command.slice(1).join(' ').trim()
     if (config.isManager(meta.userId)) meta.$send(message)
