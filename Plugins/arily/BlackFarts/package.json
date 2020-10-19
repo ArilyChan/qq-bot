@@ -10,6 +10,7 @@
     "abort-controller": "^3.0.0",
     "app-module-path": "^2.2.0",
     "console.table": "^0.10.0",
+    "cqcode-builder": "github:ArilyChan/node-cqcode-builder",
     "ewc-api": "github:arily/ewc-api",
     "ewc-matchmaking": "github:arily/ewc-matchmaking#master",
     "express": "^4.17.1",
