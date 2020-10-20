@@ -1,6 +1,6 @@
 {
   "name": "qq-bot",
-  "version": "1.0.1",
+  "version": "2.0.1",
   "description": "qq bot",
   "main": "index.js",
   "dependencies": {
@@ -8,6 +8,7 @@
     "blackfarts": "file:Plugins/arily/BlackFarts",
     "cqcode-builder": "github:ArilyChan/node-cqcode-builder",
     "dotenv": "^8.2.0",
+    "koishi-plugin-eval": "^2.0.3",
     "osuercalendar-plugin": "file:Plugins/exsper/osuerCalendar",
     "ppysbquery-plugin": "file:Plugins/exsper/ppysbQuery",
     "sb-bot-message-recorder": "file:Plugins/arily/recorder",
