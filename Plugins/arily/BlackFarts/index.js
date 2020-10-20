@@ -23,10 +23,6 @@ module.exports.webView = (options, storage) => {
 }
 
 module.exports.apply = function (app, options, storage) {
-  // const logger = app.logger()
-  // logger.success('loaded')
-  options = { exclusive: [738401694] }
-
   const cabbage = new CabbageReaction(cabbageReaction)
   const explosive = new CabbageReaction(explosiveReaction)
   const recipe = new CabbageReaction(recipeReaction)
