@@ -9,6 +9,7 @@
     "cqcode-builder": "github:ArilyChan/node-cqcode-builder",
     "dotenv": "^8.2.0",
     "koishi-plugin-eval": "^2.0.3",
+    "koishi-plugin-eval-addons": "^1.0.0-beta.0",
     "koishi-plugin-mongo": "^1.1.0",
     "osuercalendar-plugin": "file:Plugins/exsper/osuerCalendar",
     "ppysbquery-plugin": "file:Plugins/exsper/ppysbQuery",
