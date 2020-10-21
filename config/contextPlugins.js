@@ -94,7 +94,8 @@ module.exports = [
         options: {
           userFields: ['foo', 'id', 'authority'],
           setupFiles: {
-            'fetch.js': `${appDir}/config/eval/fetch.js`
+            'fetch.js': `${appDir}/config/eval/fetch.js`,
+            'cqcode-builder': `${appDir}/config/eval/cqcode.js`
           }
         }
       }
