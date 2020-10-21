@@ -59,7 +59,8 @@ function helps ({ meta, app }) {
 
 function poke ({ command, meta, app }) {
   const qq = command.slice(1).join(' ').trim()
-  meta.$send(`${new CQ.Poke().qq(qq)}`)
+  const cqcode = `${new CQ.Poke().qq(qq)}`
+  meta.$send(cqcode)
 }
 module.exports = {
   help: helps,
