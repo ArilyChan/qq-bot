@@ -87,7 +87,7 @@ module.exports = [
         require: 'arilychan-radio',
         options: {
           web: {
-            host: 'http://ri.mnk:3005',
+            host: 'http://ri.mk:3005',
             path: '/radio'
           },
           expire: 7
