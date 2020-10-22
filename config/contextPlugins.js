@@ -79,22 +79,6 @@ module.exports = [
       },
       {
         type: 'node_module',
-        require: 'koishi-plugin-eval',
-        options: {
-          userFields: ['foo', 'id', 'authority'],
-          setupFiles: {
-            'fetch.js': `${appDir}/config/eval/fetch.js`,
-            'cqcode-builder': `${appDir}/config/eval/cqcode.js`
-          }
-        }
-      }
-    ]
-  },
-  {
-    for: ContextBuilder((app) => app.group(1097526643), 'test-groups'),
-    use: [
-      {
-        type: 'node_module',
         require: 'arilychan-radio',
         options: {
           web: {
@@ -104,6 +88,11 @@ module.exports = [
           expire: 7
         }
       }
+    ]
+  },
+  {
+    for: ContextBuilder((app) => app.group(1097526643), 'test-groups'),
+    use: [
       // {
       //   type: 'node_module',
       //   require: 'koishi-plugin-mongo',
@@ -116,6 +105,17 @@ module.exports = [
       //   type: 'node_module',
       //   require: 'koishi-plugin-eval-addons'
       // },
+      {
+        type: 'node_module',
+        require: 'koishi-plugin-eval',
+        options: {
+          userFields: ['foo', 'id', 'authority'],
+          setupFiles: {
+            'fetch.js': `${appDir}/config/eval/fetch.js`,
+            'cqcode-builder': `${appDir}/config/eval/cqcode.js`
+          }
+        }
+      }
     ]
   }
 ]
