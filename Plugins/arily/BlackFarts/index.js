@@ -4,10 +4,10 @@ const Command = require('./Command')
 const cabbageReaction = require('./Cabbage/CabbageReactionConfig')
 const explosiveReaction = require('./Explosive/ExpolosiveReactionConfig')
 const recipeReaction = require('./Recipe/RecipeReactionConfig')
+const { menu, models: menuModels } = require('./Recipe/menu')
 // const RollReaction = require('./Roll/RollReaction')
 // const ExsperReaction = require('./Exsper/ExsperReaction');
 module.exports.name = 'BlackFarts'
-const { menu, models: menuModels } = require('./Recipe/menu')
 module.exports.init = (options) => ({
   originalMenu: menu,
   menu: {},

@@ -1,5 +1,4 @@
 const express = require('express')
-const { nextTick } = require('process')
 
 const app = express()
 
