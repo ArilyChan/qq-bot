@@ -16,10 +16,10 @@ module.exports.init = (options) => ({
 
 const web = require('./server')
 let webInited = false
-module.exports.webView = (options, storage) => {
+module.exports.webView = (options, storage, http) => {
   if (webInited) return undefined
   webInited = true
-  return web(storage)
+  return web(storage, http)
 }
 
 module.exports.apply = function (app, options, storage) {

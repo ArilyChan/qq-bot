@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@babel/preset-react": "^7.12.1",
+    "arilychan-radio": "github:ArilyChan/arilychan-radio",
     "blackfarts": "file:Plugins/arily/BlackFarts",
     "cqcode-builder": "github:ArilyChan/node-cqcode-builder",
     "dotenv": "^8.2.0",
