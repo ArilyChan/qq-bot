@@ -1,7 +1,7 @@
 require('dotenv').config()
 const path = require('path')
 const appDir = path.dirname(require.main.filename)
-const webServer = require('sb-qq-bot-framework/lib/WebServer')
+const { express, http } = require('sb-qq-bot-framework/lib/WebServer')
 
 const config = require(`${appDir}/config`)
 console.log(config)
@@ -12,11 +12,13 @@ try {
   const pluginLoader = require('sb-qq-bot-framework/lib/ContextPluginApply')
   const Loaded = pluginLoader(app, config.contextPlugins)
   // console.log(Loaded.webViews)
-  Loaded.webViews.map(v => {
+  Loaded.webViews.map(async v => {
+    const middleware = v.expressApp(v.options, await v.pluginData, http)
+    if (!middleware) return
     console.log(v.name, 'installed on', v.path)
-    webServer.use(v.path, v.expressApp)
+    express.use(v.path, middleware)
   })
-  webServer.listen(3005, () => console.log('Example app listening on port 3005!'))
+  http.listen(3005, () => console.log('Example app listening on port 3005!'))
 } catch (error) {
   console.log(error)
 }

@@ -5,7 +5,7 @@ const app = express()
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
-module.exports = (storage) => {
+module.exports = (storage, http) => {
   app.get('/recipe', (req, res) => {
     res.render('recipes', {
       title: 'recipes',
