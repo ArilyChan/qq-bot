@@ -5,10 +5,12 @@ const Menu = require('./components/menu.jsx')
 function HelloMessage (props) {
   return (
     <DefaultLayout title={props.title}>
-      {Object.entries(props.recipes).map(([menu, recipes]) => {
-        if (recipes.length) { return <Menu menu={menu} recipes={recipes} key={`menu-${menu}`} /> }
-      }
-      )}
+      return (<div>
+        {Object.entries(props.recipes).map(([menu, recipes]) => {
+          if (recipes.length) { return <Menu menu={menu} recipes={recipes} key={`menu-${menu}`} /> }
+        }
+        )}
+      </div>)
     </DefaultLayout>
   )
 }
