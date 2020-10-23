@@ -1,4 +1,4 @@
-// const filters = require('../lib/filters')
+const admins = require('./admins')
 const path = require('path')
 const appDir = path.dirname(require.main.filename)
 const recipeFilter = require('./filters/group.blackFarts.recipe')
@@ -56,7 +56,7 @@ module.exports = [
         path: 'Plugins/exsper/ppysbQuery',
         priority: 4,
         options: {
-          admin: [879724291], // 管理员自行添加
+          admin: admins, // 管理员自行添加
           database: path.join(appDir, 'Plugins/exsper/ppysbQuery/storage/database.db'), // __dirname为config文件夹
           prefixs: ['*'],
           eventBus,
@@ -70,7 +70,7 @@ module.exports = [
           eventBus,
           sharedState,
           users: {
-            admin: [879724291], // 管理员自行添加
+            admin: admins, // 管理员自行添加
             blackList: [],
             whiteList: []
           },
@@ -82,10 +82,13 @@ module.exports = [
         require: 'arilychan-radio',
         options: {
           web: {
-            host: 'http://ri.mk:3005',
+            host: 'https://bot.ri.mk',
             path: '/radio'
           },
-          expire: 7
+          expire: 7,
+          isAdmin (meta) {
+            return admins.includes(meta.userId)
+          }
         }
       }
     ]
