@@ -12,7 +12,7 @@ module.exports.apply = (ctx, options) => {
       if (meta.messageType !== 'private') replyMessage.push(`[CQ:reply,id=${meta.messageId}]`)
       replyMessage.push(reply)
       // if (reply) return meta.$send(`[CQ:at,qq=${userId}]` + '\n' + reply)
-      meta.$send(replyMessage.join(''))
+      await meta.$send(replyMessage.join(''))
     } catch (ex) {
       console.log(ex)
       return next()
