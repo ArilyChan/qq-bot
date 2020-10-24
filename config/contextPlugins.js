@@ -55,17 +55,13 @@ module.exports = [
         options: {
           admin: admins, // 管理员自行添加
           database: path.join(appDir, 'Plugins/exsper/ppysbQuery/storage/database.db'), // __dirname为config文件夹
-          prefixs: ['*'],
-          eventBus,
-          sharedState
+          prefixs: ['*']
         }
       }, {
         type: 'local',
         path: 'Plugins/exsper/osuerCalendar',
         priority: 3,
         options: {
-          eventBus,
-          sharedState,
           users: {
             admin: admins, // 管理员自行添加
             blackList: [],
