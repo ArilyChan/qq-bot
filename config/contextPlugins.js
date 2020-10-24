@@ -4,10 +4,7 @@ const appDir = path.dirname(require.main.filename)
 const recipeFilter = require('./filters/group.blackFarts.recipe')
 
 const ContextBuilder = require('sb-qq-bot-framework/lib/contextBuilder')
-const { EventEmitter } = require('events')
 
-const eventBus = new EventEmitter()
-const sharedState = {}
 module.exports = [
   {
     for: ContextBuilder((app) => app, 'any'),
