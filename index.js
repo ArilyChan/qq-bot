@@ -30,7 +30,6 @@ try {
   while (count++ <= maxTries) {
     try {
       app.start()
-      throw new Error('should be catched')
     } catch (e) {
       console.log('⚠️Uncatched Exception!!')
       console.log(e.stack)
