@@ -45,7 +45,7 @@ process.on('unhandledRejection', async (error) => {
   try {
     const bot = app.bots.find(bot => bot)
     if (!bot) return
-    await bot.sender.sendPrivateMsg(879724291, `${error.stack}`)
+    await bot.sendPrivateMsg(879724291, `${error.stack}`)
   } catch (err) {
     console.log(error)
   }
