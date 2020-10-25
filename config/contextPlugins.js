@@ -15,7 +15,7 @@ module.exports = [
         priority: 1,
         filter: [
           meta => recipeFilter(263668213)(meta).then(result => {
-            if (!result) meta.$send('去别的群试试吧.')
+            if (!result) meta.$send('去别的群试试吧.').catch(e => console.error.bind(console))
             return result
           }),
           require('./filters/group.blackFarts.recipe.restrictHours')([{ from: 9, to: 11 }, { from: 14, to: 17 }, { from: 20, to: 24 }], 738401694)

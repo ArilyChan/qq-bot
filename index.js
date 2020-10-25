@@ -18,7 +18,7 @@ try {
     console.log(v.name, 'installed on', v.path)
     express.use(v.path, middleware)
   })
-  http.listen(3005, () => console.log('Example app listening on port 3005!'))
+  http.listen(3005, () => console.log('Bot web app listening on port 3005!'))
 } catch (error) {
   console.log(error)
 }
