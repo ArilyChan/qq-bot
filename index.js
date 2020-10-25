@@ -7,6 +7,7 @@ const config = require(`${appDir}/config`)
 console.log(config)
 
 const app = require('sb-qq-bot-framework/lib/Bot')(config.koishi)
+console.log(app.bots)
 
 try {
   const pluginLoader = require('sb-qq-bot-framework/lib/ContextPluginApply')
@@ -29,6 +30,7 @@ try {
   while (count++ <= maxTries) {
     try {
       app.start()
+      throw new Error('should be catched')
     } catch (e) {
       console.log('⚠️Uncatched Exception!!')
       console.log(e.stack)
@@ -39,3 +41,12 @@ try {
   console.log('Max retries exceed. Quit now.')
   console.log(e)
 }
+process.on('unhandledRejection', async (error) => {
+  try {
+    const bot = app.bots.find(bot => bot)
+    if (!bot) return
+    await bot.sender.sendPrivateMsg(879724291, `${error.stack}`)
+  } catch (err) {
+    console.log(error)
+  }
+})
