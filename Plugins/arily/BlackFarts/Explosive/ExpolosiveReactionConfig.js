@@ -88,7 +88,7 @@ async function getUserByHandle (handle) {
 }
 // const playOrNot = async ({ command, meta, app}) => {
 //     const logger = app.logger('CabbageReaction');
-//     meta.$send(`${Math.round(Math.random()) ? '打' : '不打'}`);
+//     meta.$send(`${Math.round(Math.random()) ? '打' : '不打'}`).catch(e => console.error.bind(console))
 // }
 const uploadElo = async ({ command, meta, app }) => {
   // const logger = app.logger('CabbageReaction');
@@ -116,14 +116,14 @@ const uploadElo = async ({ command, meta, app }) => {
     setImmediate(async (response, meta) => {
       if (response.code === 10001) {
         const updateResult = await E.matches.calculateElo({ signal: timeoutSignal(20) })
-        meta.$send(`${new CQCode.At().qq(meta.userId)} ${updateResult.message}`)
+        meta.$send(`${new CQCode.At().qq(meta.userId)} ${updateResult.message}`).catch(e => console.error.bind(console))
         const message = []
         if (meta.messageType !== 'private') message.push(new CQCode.At().qq(meta.userId))
         try {
           message.push(await (await getMatchEloChangeWithOsuUser(matchID)).toString())
-          meta.$send(message.join('\n'))
+          await meta.$send(message.join('\n'))
         } catch (Error) {
-          console.log(Error)
+          console.error(Error)
         }
       }
     }, response, meta)
@@ -131,9 +131,9 @@ const uploadElo = async ({ command, meta, app }) => {
   } catch (Error) {
     const append = handleErrorMessage(Error, 'elo.upload') || ''
     message.push(append)
-    console.warn(Error)
+    console.error(Error)
   } finally {
-    meta.$send(message.join('\n'))
+    meta.$send(message.join('\n')).catch(e => console.error.bind(console))
   }
 }
 // const findRival = async function({ command, meta, app}) {
@@ -428,7 +428,7 @@ const dad = async function ({ command, meta, app }) {
     message.push(append)
     console.warn(Error)
   } finally {
-    meta.$send(message.join('\n'))
+    meta.$send(message.join('\n')).catch(e => console.error.bind(console))
   }
 }
 
@@ -471,7 +471,7 @@ async function sendMatchResult ({ meta, command }) {
     message.push(append)
     console.log(Error)
   } finally {
-    meta.$send(message.join('\n'))
+    meta.$send(message.join('\n')).catch(e => console.error.bind(console))
   }
 }
 
@@ -516,11 +516,10 @@ const elo = async ({ command, meta, app }) => {
 
     const res = Object.assign(user, elo, recentPlay /* { recentMatch } */)
 
-    meta.$send(`${new CQCode.At().qq(meta.userId)} \n${await eloTable(res)}`)
+    await meta.$send(`${new CQCode.At().qq(meta.userId)} \n${await eloTable(res)}`)
   } catch (Error) {
     const append = handleErrorMessage(Error, 'elo')
-    meta.$send(`${new CQCode.At().qq(meta.userId)} ${append}`)
-    throw Error
+    meta.$send(`${new CQCode.At().qq(meta.userId)} ${append}`).catch(e => console.error.bind(console))
   }
 }
 
@@ -538,8 +537,8 @@ module.exports = {
       return acc
     }, {})
     data.uploader_qq = qq
-    meta.$send('order:' + JSON.stringify(data))
-    if (!data.mappool_name) return meta.$send('mappool_name unspecified')
+    meta.$send('order:' + JSON.stringify(data)).catch(e => console.error.bind(console))
+    if (!data.mappool_name) return meta.$send('mappool_name unspecified').catch(e => console.error.bind(console))
     fetch(base(data.mappool_name), {
       method: 'POST',
       body: JSON.stringify(data)

@@ -59,7 +59,7 @@ class storage {
       case 'message': {
         // meta.$send(`cancelling insertion of ${meta.messageId}`)
         const index = this.cache.findIndex(op => op.meta.messageId === meta.messageId)
-        if (index !== undefined) {
+        if (index !== -1) {
           const cache = this.cache[index]
           clearTimeout(cache.timeout)
           this.cache.splice(index, 1)

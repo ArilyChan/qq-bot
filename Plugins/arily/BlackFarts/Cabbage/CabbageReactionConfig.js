@@ -48,19 +48,19 @@ const mute = () => undefined
 const blackfart = ({ meta, app }) => {
   // const logger = app.logger('CabbageReaction');
   if (config.blackFartTo(meta.userId)) {
-    setTimeout(() => meta.$send(`${meta.sender.nickname}牛逼`), 1000 * 5)
+    setTimeout(() => meta.$send(`${meta.sender.nickname}牛逼`), 1000 * 5).catch(e => console.error.bind(console))
   }
 }
 
 function helps ({ meta, app }) {
   const helpcontents = Object.entries(usage).map(([name, usage]) => `${usage}: ${(desc[name] !== undefined) ? desc[name] : '未添加命令说明'}`)
-  meta.$send(helpcontents.join('\n'))
+  meta.$send(helpcontents.join('\n')).catch(e => console.error.bind(console))
 }
 
 function poke ({ command, meta, app }) {
   const qq = command.slice(1).join(' ').trim()
   const cqcode = `${new CQ.Poke().qq(qq)}`
-  meta.$send(cqcode)
+  meta.$send(cqcode).catch(e => console.error.bind(console))
 }
 module.exports = {
   help: helps,
@@ -79,7 +79,7 @@ module.exports = {
   poke,
   say: async ({ command, meta, app }) => {
     const message = command.slice(1).join(' ').trim()
-    if (config.isManager(meta.userId)) meta.$send(message)
-    else if (config.isEnabled('say', meta.userId)) meta.$send(`${meta.sender.nickname}: ${message}`)
+    if (config.isManager(meta.userId)) meta.$send(message).catch(e => console.error.bind(console))
+    else if (config.isEnabled('say', meta.userId)) meta.$send(`${meta.sender.nickname}: ${message}`).catch(e => console.error.bind(console))
   }
 }

@@ -41,7 +41,7 @@ RollReaction.prototype.reactTo = function ({ command, meta }) {
         return false
       }
     }
-    meta.$send(message.join('\n'))
+    meta.$send(message.join('\n')).catch(e => console.error.bind(console))
     return true
   } catch (Error) {
 
