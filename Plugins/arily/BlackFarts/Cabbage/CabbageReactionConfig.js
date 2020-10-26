@@ -48,7 +48,7 @@ const mute = () => undefined
 const blackfart = ({ meta, app }) => {
   // const logger = app.logger('CabbageReaction');
   if (config.blackFartTo(meta.userId)) {
-    setTimeout(() => meta.$send(`${meta.sender.nickname}牛逼`), 1000 * 5).catch(e => console.error.bind(console))
+    setTimeout(() => meta.$send(`${meta.sender.nickname}牛逼`).catch(e => console.error.bind(console)), 1000 * 5)
   }
 }
 
