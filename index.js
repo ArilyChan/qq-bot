@@ -7,7 +7,6 @@ const config = require(`${appDir}/config`)
 console.log(config)
 
 const app = require('sb-qq-bot-framework/lib/Bot')(config.koishi)
-console.log(app.bots)
 
 try {
   const pluginLoader = require('sb-qq-bot-framework/lib/ContextPluginApply')

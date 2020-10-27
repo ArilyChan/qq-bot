@@ -20,7 +20,6 @@ module.exports = [
           }),
           require('./filters/group.blackFarts.recipe.restrictHours')([{ from: 9, to: 11 }, { from: 14, to: 17 }, { from: 20, to: 24 }], 738401694)
         ]
-
       }, {
         type: 'local',
         path: 'Plugins/arily/recorder',
@@ -40,7 +39,6 @@ module.exports = [
           // meta => !meta.message.startsWith('今日运势')
         ],
         priority: -1
-
       }, {
         type: 'local',
         path: 'Plugins/exsper/sillyChooser',
