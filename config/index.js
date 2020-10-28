@@ -1,4 +1,4 @@
-function req (req, conf, def = {}) {
+function req (req, def = {}) {
   try {
     return require(req)
   } catch (error) {
@@ -8,4 +8,4 @@ function req (req, conf, def = {}) {
 }
 
 exports.koishi = req('./koishi')
-exports.contextPlugins = req('./contextPlugins', undefined, [])
+exports.contextPlugins = req('./contextPlugins', [])
