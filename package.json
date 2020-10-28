@@ -9,6 +9,7 @@
     "blackfarts": "file:Plugins/arily/BlackFarts",
     "cqcode-builder": "github:ArilyChan/node-cqcode-builder",
     "dotenv": "^8.2.0",
+    "koishi-adapter-cqhttp": "^1.0.6",
     "koishi-plugin-eval": "^2.0.3",
     "koishi-plugin-eval-addons": "^1.0.0-beta.0",
     "koishi-plugin-mongo": "^1.1.0",
