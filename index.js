@@ -7,20 +7,18 @@ const config = require(`${appDir}/config`)
 console.log(config)
 const app = require('sb-qq-bot-framework/lib/Bot')(config.koishi)
 
-try {
-  const pluginLoader = require('sb-qq-bot-framework/lib/ContextPluginApply')
-  const Loaded = pluginLoader(app, config.contextPlugins)
-  // console.log(Loaded.webViews)
-  Loaded.webViews.map(async v => {
-    const middleware = v.expressApp(v.options, await v.pluginData, http)
-    if (!middleware) return
-    console.log(v.name, 'installed on', v.path)
-    express.use(v.path, middleware)
+const pluginLoader = require('sb-qq-bot-framework/lib/ContextPluginApply')
+pluginLoader(app, config.contextPlugins)
+  .then(Loaded => {
+    Loaded.webViews.map(async v => {
+      const middleware = v.expressApp(v.options, await v.pluginData, http)
+      if (!middleware) return
+      console.log(v.name, 'installed on', v.path)
+      express.use(v.path, middleware)
+    })
+    http.listen(3005, () => console.log('Bot web app listening on port 3005!'))
   })
-  http.listen(3005, () => console.log('Bot web app listening on port 3005!'))
-} catch (error) {
-  console.log(error)
-}
+  .catch(error => console.log(error))
 
 let count = 0
 const maxTries = 3
