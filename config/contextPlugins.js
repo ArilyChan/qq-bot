@@ -38,7 +38,7 @@ module.exports = [
           // meta => !meta.message.startsWith('*'),
           // meta => !meta.message.startsWith('今日运势')
         ],
-        priority: -1
+        priority: -2
       }, {
         type: 'local',
         path: 'Plugins/exsper/sillyChooser',
@@ -86,6 +86,7 @@ module.exports = [
         type: 'node_module',
         require: 'koishi-plugin-blame',
         subPlugin: 'v2',
+        priority: -1,
         options: {
           send: {
             private: [879724291]
