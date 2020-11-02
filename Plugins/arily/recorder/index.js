@@ -11,7 +11,7 @@ const slipper = require('./slipper')
 module.exports.recorder = recorder
 module.exports.slipper = slipper
 module.exports.Storage = Storage
-module.exports.init = (path, options) => {
+module.exports.init = (options) => {
   if (!storage) storage = new Storage(options)
   return storage
 }
