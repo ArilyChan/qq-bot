@@ -81,6 +81,16 @@ module.exports = [
             return admins.includes(meta.userId)
           }
         }
+      },
+      {
+        type: 'node_module',
+        require: 'koishi-plugin-blame',
+        subPlugin: 'v2',
+        options: {
+          send: {
+            private: [879724291]
+          }
+        }
       }
     ]
   },

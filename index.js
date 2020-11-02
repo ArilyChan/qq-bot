@@ -36,12 +36,16 @@ try {
   console.log('Max retries exceed. Quit now.')
   console.log(e)
 }
-process.on('unhandledRejection', async (error) => {
-  try {
-    const bot = app.bots.find(bot => bot)
-    if (!bot) return
-    await bot.sendPrivateMsg(879724291, `${error.stack}`)
-  } catch (err) {
-    console.log(error)
-  }
-})
+
+// setTimeout(() => Promise.resolve().then(() => {
+//   throw new Error('reject!')
+// }), 5000)
+// process.on('unhandledRejection', async (error) => {
+//   try {
+//     const bot = app.bots.find(bot => bot)
+//     if (!bot) return
+//     await bot.sendPrivateMsg(879724291, `${error.stack}`)
+//   } catch (err) {
+//     console.log(error)
+//   }
+// })
