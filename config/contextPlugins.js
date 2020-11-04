@@ -52,8 +52,18 @@ module.exports = [
         priority: 4,
         options: {
           admin: admins, // 管理员自行添加
-          database: path.join(appDir, 'Plugins/exsper/ppysbQuery/storage/database.db'), // __dirname为config文件夹
+          database: path.join(appDir, 'Plugins/exsper/ppysbQuery/storage/database.db'),
           prefixs: ['*']
+        }
+      }, {
+        type: 'local',
+        path: 'Plugins/exsper/ppyshQuery',
+        priority: 5,
+        options: {
+          admin: admins, // 管理员自行添加
+          apiKey: 'YOUR PPYSH API KEY', // osu Api token，必要
+          database: path.join(appDir, 'Plugins/exsper/ppyshQuery/storage/database.db'),
+          prefixs: ['?', '？']
         }
       }, {
         type: 'local',
