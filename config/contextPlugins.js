@@ -40,15 +40,15 @@ module.exports = [
         ],
         priority: -2
       }, {
-        type: 'local',
-        path: 'Plugins/exsper/sillyChooser',
+        type: 'node_module',
+        path: 'koishi-plugin-sillychooser',
         priority: 2,
         options: {
           prefixs: ['!', '！']
         }
       }, {
-        type: 'local',
-        path: 'Plugins/exsper/ppysbQuery',
+        type: 'node_module',
+        path: 'koishi-plugin-ppysb-query',
         priority: 4,
         options: {
           admin: admins, // 管理员自行添加
@@ -56,18 +56,19 @@ module.exports = [
           prefixs: ['*']
         }
       }, {
-        type: 'local',
-        path: 'Plugins/exsper/ppyshQuery',
+        type: 'node_module',
+        path: 'koishi-plugin-ppysh-query',
         priority: 5,
         options: {
           admin: admins, // 管理员自行添加
-          apiKey: 'YOUR PPYSH API KEY', // osu Api token，必要
+          // apiKey: 'YOUR PPYSH API KEY', // osu Api token，必要
+          apiKey: 'a5619ae685a83fb60e0d418819c9d86675b0dd0f', // osu Api token，必要
           database: path.join(appDir, 'Plugins/exsper/ppyshQuery/storage/database.db'),
           prefixs: ['?', '？']
         }
       }, {
-        type: 'local',
-        path: 'Plugins/exsper/osuerCalendar',
+        type: 'node_module',
+        path: 'koishi-plugin-osuercalendar',
         priority: 3,
         options: {
           users: {
