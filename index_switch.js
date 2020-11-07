@@ -1,12 +1,14 @@
 require('dotenv').config()
+
 const path = require('path')
 const appDir = path.dirname(require.main.filename)
 const { express, http } = require('sb-qq-bot-framework/lib/WebServer')
 
 const config = require(`${appDir}/config`)
-console.log(config)
+
 const app = require('sb-qq-bot-framework/lib/Bot')(config.koishi())
 
+// app.plugin(require('koishi-plugin-blame').v2)
 const pluginLoader = require('sb-qq-bot-framework/lib/ContextPluginApply')
 pluginLoader(app, config.contextPlugins)
   .then(Loaded => {
@@ -21,7 +23,7 @@ pluginLoader(app, config.contextPlugins)
   .catch(error => console.log(error))
 
 let count = 0
-const maxTries = 3
+const maxTries = 1
 try {
   while (count++ <= maxTries) {
     try {
@@ -37,9 +39,9 @@ try {
   console.log(e)
 }
 
-// setTimeout(() => Promise.resolve().then(() => {
-//   throw new Error('reject!')
-// }), 5000)
+setTimeout(() => Promise.resolve().then(() => {
+  throw new Error('reject!')
+}), 5000)
 // process.on('unhandledRejection', async (error) => {
 //   try {
 //     const bot = app.bots.find(bot => bot)
