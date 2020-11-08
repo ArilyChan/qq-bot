@@ -5,7 +5,7 @@ const { express, http } = require('sb-qq-bot-framework/lib/WebServer')
 
 const config = require(`${appDir}/config`)
 console.log(config)
-const app = require('sb-qq-bot-framework/lib/Bot')(config.koishi())
+const app = require('sb-qq-bot-framework/lib/Bot')(config.koishi)
 
 const pluginLoader = require('sb-qq-bot-framework/lib/ContextPluginApply')
 pluginLoader(app, config.contextPlugins)
