@@ -11,16 +11,16 @@
     "dotenv": "^8.2.0",
     "koishi": "^2.4.0",
     "koishi-adapter-cqhttp": "^1.0.7",
+    "koishi-plugin-sillychooser": "github:ArilyChan/koishi-plugin-sillychooser",
+    "koishi-plugin-ppysb-query": "github:ArilyChan/koishi-plugin-ppysb-query",
+    "koishi-plugin-ppysh-query": "github:ArilyChan/koishi-plugin-ppysh-query",
+    "koishi-plugin-osuercalendar": "github:ArilyChan/koishi-plugin-osuercalendar",
     "koishi-plugin-blame": "github:ArilyChan/koishi-plugin-blame",
     "koishi-plugin-eval": "^2.0.3",
     "koishi-plugin-eval-addons": "^1.0.0-beta.0",
     "koishi-plugin-mongo": "^1.1.0",
-    "osuercalendar-plugin": "file:Plugins/exsper/osuerCalendar",
-    "ppysbquery-plugin": "file:Plugins/exsper/ppysbQuery",
-    "ppyshquery-plugin": "file:Plugins/exsper/ppyshQuery",
     "sb-bot-message-recorder": "file:Plugins/arily/recorder",
-    "sb-qq-bot-framework": "github:ArilyChan/sb-qq-bot-framework",
-    "sillychooser-plugin": "file:Plugins/exsper/sillyChooser"
+    "sb-qq-bot-framework": "github:ArilyChan/sb-qq-bot-framework"
   },
   "devDependencies": {
     "eslint": "^7.11.0",
