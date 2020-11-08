@@ -1,7 +1,7 @@
-const { App } = require('koishi')
 module.exports.name = 'test'
 module.exports.apply = (app) => {
   app.middleware((meta, next) => {
+    console.log(meta)
     const ctx = meta.$app
     const cmd = meta.message.split(' ')
     const action = cmd[0]
@@ -22,12 +22,8 @@ module.exports.apply = (app) => {
       ctx2.scope.users.length = 0
       delete ctx2.scope.users.positive
     }
-    console.log(ctx2.scope)
-    const middlewares = [...ctx._hooks[App.MIDDLEWARE_EVENT]]
-    ctx._hooks[App.MIDDLEWARE_EVENT] = []
-    middlewares.map(m => {
-      const [, middleware] = m
-      ctx2.middleware(middleware)
-    })
+    const snapshot = ctx.snapshot
+    ctx.dispose()
+    ctx2.restore(snapshot)
   })
 }
