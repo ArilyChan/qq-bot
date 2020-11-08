@@ -26,7 +26,7 @@ module.exports.apply = (app) => {
     const middlewares = [...ctx._hooks[App.MIDDLEWARE_EVENT]]
     ctx._hooks[App.MIDDLEWARE_EVENT] = []
     middlewares.map(m => {
-      const [ctx, middleware] = m
+      const [, middleware] = m
       ctx2.middleware(middleware)
     })
   })
