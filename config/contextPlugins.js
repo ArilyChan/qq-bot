@@ -40,24 +40,34 @@ module.exports = [
         ],
         priority: -2
       }, {
-        type: 'local',
-        path: 'Plugins/exsper/sillyChooser',
+        type: 'node_module',
+        require: 'koishi-plugin-sillychooser',
         priority: 2,
         options: {
           prefixs: ['!', '！']
         }
       }, {
-        type: 'local',
-        path: 'Plugins/exsper/ppysbQuery',
+        type: 'node_module',
+        require: 'koishi-plugin-ppysb-query',
         priority: 4,
         options: {
           admin: admins, // 管理员自行添加
-          database: path.join(appDir, 'Plugins/exsper/ppysbQuery/storage/database.db'), // __dirname为config文件夹
+          database: path.join(appDir, 'Plugins/exsper/ppysbQuery/storage/database.db'),
           prefixs: ['*']
         }
       }, {
-        type: 'local',
-        path: 'Plugins/exsper/osuerCalendar',
+        type: 'node_module',
+        require: 'koishi-plugin-ppysh-query',
+        priority: 5,
+        options: {
+          admin: admins, // 管理员自行添加
+          apiKey: process.env.BANCHO_API_KEY || '123456788', // osu Api token，必要
+          database: path.join(appDir, 'Plugins/exsper/ppyshQuery/storage/database.db'),
+          prefixs: ['?', '？']
+        }
+      }, {
+        type: 'node_module',
+        require: 'koishi-plugin-osuercalendar',
         priority: 3,
         options: {
           users: {
@@ -67,8 +77,7 @@ module.exports = [
           },
           eventFile: path.join(appDir, 'Plugins/exsper/osuerCalendar/osuercalendar-events.json') // __dirname为config文件夹
         }
-      },
-      {
+      }, {
         type: 'node_module',
         require: 'arilychan-radio',
         options: {
@@ -81,8 +90,7 @@ module.exports = [
             return admins.includes(meta.userId)
           }
         }
-      },
-      {
+      }, {
         type: 'node_module',
         require: 'koishi-plugin-blame',
         subPlugin: 'v2',

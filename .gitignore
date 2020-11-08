@@ -125,5 +125,6 @@ Plugins/arily/BlackFarts/Cabbage/menu/config/db.js
 config/koishi.js
 config/storage/
 Plugins/exsper/ppysbQuery/storage/database.db
+Plugins/exsper/ppyshQuery/storage/database.db
 Plugins/exsper/osuerCalendar/osuercalendar-events.json
 *.code-workspace
