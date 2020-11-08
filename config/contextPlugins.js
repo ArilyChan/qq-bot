@@ -61,8 +61,7 @@ module.exports = [
         priority: 5,
         options: {
           admin: admins, // 管理员自行添加
-          // apiKey: 'YOUR PPYSH API KEY', // osu Api token，必要
-          apiKey: 'Your api token', // osu Api token，必要
+          apiKey: process.env.BANCHO_API_KEY || '123456788', // osu Api token，必要
           database: path.join(appDir, 'Plugins/exsper/ppyshQuery/storage/database.db'),
           prefixs: ['?', '？']
         }
