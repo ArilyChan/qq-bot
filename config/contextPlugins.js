@@ -9,11 +9,11 @@ module.exports = [
   {
     for: ContextBuilder((app) => app, 'any'),
     use: [
-      // {
-      //   type: 'node_module',
-      //   require: 'sb-plugin-osu-stat-screenshot',
-      //   priority: 8
-      // },
+      {
+        type: 'node_module',
+        require: 'sb-plugin-osu-stat-screenshot',
+        priority: 8
+      },
       {
         type: 'node_module',
         require: 'blackfarts',
