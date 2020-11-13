@@ -5,7 +5,8 @@ const blackFartsEnabled = [
   2606793420, // White
   630060047, // CYCLC
   976685185, // lsahi
-  387820244 // crystal
+  387820244, // crystal
+  2227385902 // Miracle
 ]
 const enabled = {
   say: [2038548858]
