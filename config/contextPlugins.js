@@ -11,6 +11,11 @@ module.exports = [
     use: [
       {
         type: 'node_module',
+        require: 'sb-plugin-osu-stat-screenshot',
+        priority: 8
+      },
+      {
+        type: 'node_module',
         require: 'blackfarts',
         priority: 1,
         filter: [

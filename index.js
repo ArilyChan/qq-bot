@@ -16,7 +16,8 @@ pluginLoader(app, config.contextPlugins)
       console.log(v.name, 'installed on', v.path)
       express.use(v.path, middleware)
     })
-    http.listen(3005, () => console.log('Bot web app listening on port 3005!'))
+    const port = process.env.PORT || 3005
+    http.listen(port, () => console.log(`Bot web app listening on port ${port}!`))
   })
   .catch(error => console.log(error))
 

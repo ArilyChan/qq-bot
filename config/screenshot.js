@@ -3,11 +3,11 @@ const ContextBuilder = require('sb-qq-bot-framework/lib/contextBuilder')
 
 module.exports = [
   {
-    for: ContextBuilder((app) => app.group(559633343, 926872640), 'bocai'),
+    for: ContextBuilder((app) => app, 'test-group'),
     use: [
       {
         type: 'node_module',
-        require: 'blackfarts',
+        require: 'sb-plugin-osu-stat-screenshot',
         priority: 1
       }
     ]
