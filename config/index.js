@@ -7,7 +7,7 @@ function req (req, def = {}) {
   }
 }
 
-require('koishi-adapter-cqhttp')
+require('koishi-adapter-web')
 
 exports.koishi = req('./koishi')
 exports.contextPlugins = req(process.env.PLUGIN_CONFIG || './contextPlugins', [])
