@@ -43,7 +43,7 @@ module.exports = [
           // meta => !meta.message.startsWith('*'),
           // meta => !meta.message.startsWith('今日运势')
         ],
-        priority: -2
+        priority: -1
       }, {
         type: 'node_module',
         require: 'koishi-plugin-sillychooser',
@@ -99,11 +99,18 @@ module.exports = [
         type: 'node_module',
         require: 'koishi-plugin-blame',
         subPlugin: 'v2',
-        priority: -1,
+        priority: -2,
         options: {
           send: {
             private: [879724291]
           }
+        }
+      }, {
+        type: 'node_module',
+        require: 'sb-plugin-auth',
+        priority: -3,
+        options: {
+          role: 'auth'
         }
       }
     ]

@@ -20,6 +20,7 @@
     "koishi-plugin-ppysh-query": "github:ArilyChan/koishi-plugin-ppysh-query",
     "koishi-plugin-sillychooser": "github:ArilyChan/koishi-plugin-sillychooser",
     "sb-bot-message-recorder": "file:Plugins/arily/recorder",
+    "sb-plugin-auth": "github:ArilyChan/sb-plugin-auth",
     "sb-plugin-osu-stat-screenshot": "github:ArilyChan/sb-plugin-osu-stat-screenshot",
     "sb-qq-bot-framework": "github:ArilyChan/sb-qq-bot-framework"
   },
