@@ -46,7 +46,7 @@ module.exports = [
           // meta => !meta.message.startsWith('*'),
           // meta => !meta.message.startsWith('今日运势')
         ],
-        priority: -2
+        priority: -1
       }, {
         type: 'node_module',
         require: 'koishi-plugin-sillychooser',
@@ -102,39 +102,18 @@ module.exports = [
         type: 'node_module',
         require: 'koishi-plugin-blame',
         subPlugin: 'v2',
-        priority: -1,
+        priority: -2,
         options: {
           send: {
             private: [879724291]
           }
         }
-      }
-    ]
-  },
-  {
-    for: ContextBuilder((app) => app.group(1097526643), 'test-groups'),
-    use: [
-      // {
-      //   type: 'node_module',
-      //   require: 'koishi-plugin-mongo',
-      //   options: {
-      //     uri: process.env.DB_URI,
-      //     name: 'ArilyChan'
-      //   }
-      // },
-      // {
-      //   type: 'node_module',
-      //   require: 'koishi-plugin-eval-addons'
-      // },
-      {
+      }, {
         type: 'node_module',
-        require: 'koishi-plugin-eval',
+        require: 'sb-plugin-auth',
+        priority: -3,
         options: {
-          userFields: ['foo', 'id', 'authority'],
-          setupFiles: {
-            'fetch.js': `${appDir}/config/eval/fetch.js`,
-            'cqcode-builder': `${appDir}/config/eval/cqcode.js`
-          }
+          role: 'bind'
         }
       }
     ]
