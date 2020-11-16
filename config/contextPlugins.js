@@ -12,7 +12,10 @@ module.exports = [
       {
         type: 'node_module',
         require: 'sb-plugin-osu-stat-screenshot',
-        priority: 8
+        priority: 8,
+        options: {
+          base: 'http://ri.mk:3006'
+        }
       },
       {
         type: 'node_module',

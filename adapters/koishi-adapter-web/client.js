@@ -26,7 +26,7 @@ module.exports = class WsClient extends Server {
         socket.emit('joined-room', { room, type: privateChat ? 'private' : 'group' })
       })
       socket.on('client-message', (data) => {
-        let { room, message, id, user } = data
+        let { room, message, messageId, user } = data
         if (!user) user = {}
         if (!room || !message) return
         const clients = chat.sockets
@@ -38,8 +38,20 @@ module.exports = class WsClient extends Server {
           userId: user.id || socket.id,
           messageType: 'group',
           postType: 'message',
-          messageId: id || `${socket.id}-${room}-${new Date().getTime()}`,
-          message
+          messageId: messageId || `${socket.id}-${room}-${new Date().getTime()}`,
+          message,
+          rawMessage: message,
+          sender: {
+            age: 0,
+            area: '',
+            level: '',
+            card: user.groupNickname || user.id || socket.id,
+            nickname: user.name || user.id || socket.id,
+            role: user.role || 'member',
+            sex: 'unknown',
+            title: '',
+            userId: user.id || socket.id
+          }
         })
         const broadcastMessage = {
           ...data,
@@ -62,9 +74,5 @@ module.exports = class WsClient extends Server {
 
   _close () {
     logger.debug('websocket client closing')
-    for (const socket of this._sockets) {
-      socket.close()
-    }
-    this._retryCount = 0
   }
 }
