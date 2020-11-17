@@ -10,7 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.0",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "sb-plugin-auth": "github:ArilyChan/sb-plugin-auth"
   },
   "devDependencies": {
     "eslint": "^7.13.0",

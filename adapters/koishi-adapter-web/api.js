@@ -11,7 +11,8 @@ Bot.prototype.sendGroupMsg = async function (groupId, message, autoEscape = fals
     room: groupId,
     user: {
       id: session.selfId,
-      name: this.name
+      name: this.name,
+      img: this.avatarSrc
     },
     message
   })

@@ -15,6 +15,7 @@ module.exports = class WsClient extends Server {
   }
 
   async __listen (bot) {
+    const db = await require('sb-plugin-auth/db')({})
     const chat = this.io.of('/chat')
     chat.on('connection', socket => {
       socket.on('join-room', ({ room }) => {
@@ -25,20 +26,27 @@ module.exports = class WsClient extends Server {
         socket.join(room)
         socket.emit('joined-room', { room, type: privateChat ? 'private' : 'group' })
       })
-      socket.on('client-message', (data) => {
+      socket.on('client-message', async (data) => {
         let { room, message, messageId, user } = data
         if (!user) user = {}
         if (!room || !message) return
+        if (user.token && user.token !== '') {
+          const rec = await db.getStat(user.token)
+          if (rec.qq && rec.status === 'authenticated') user.id = rec.qq
+        }
+        messageId = messageId || `${socket.id}-${room}-${new Date().getTime()}`
+
         const clients = chat.sockets
         const p = clients[room]
         const privateChat = p !== undefined
+
         const meta = this.prepare({
           groupId: room.toString(),
           selfId: -1,
           userId: user.id || socket.id,
           messageType: 'group',
           postType: 'message',
-          messageId: messageId || `${socket.id}-${room}-${new Date().getTime()}`,
+          messageId,
           message,
           rawMessage: message,
           sender: {
