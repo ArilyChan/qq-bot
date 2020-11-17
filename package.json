@@ -22,7 +22,9 @@
     "sb-bot-message-recorder": "file:Plugins/arily/recorder",
     "sb-plugin-auth": "github:ArilyChan/sb-plugin-auth",
     "sb-plugin-osu-stat-screenshot": "github:ArilyChan/sb-plugin-osu-stat-screenshot",
-    "sb-qq-bot-framework": "github:ArilyChan/sb-qq-bot-framework"
+    "sb-prompt-filter": "github:ArilyChan/sb-prompt-filter",
+    "sb-qq-bot-framework": "github:ArilyChan/sb-qq-bot-framework",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "eslint": "^7.11.0",
