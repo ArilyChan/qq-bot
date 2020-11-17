@@ -4,6 +4,8 @@ const he = require('he')
 const { getOsuApi, addPlus, timeoutSignal } = require('../utils/utils')
 const { URLSearchParams } = require('url')
 
+const prompt = require('sb-prompt-filter')
+
 const CQCode = require('cqcode-builder')
 // const moment = require('moment');
 // const osu = require('node-osu');
@@ -551,39 +553,68 @@ const settleBet = ({ id }, data) => {
   })
 }
 const createBet = async ({ command, meta: session, app }) => {
-  session.$send('给对局起个名字')
-  const name = await session.$prompt()
-  session.$send(`介绍一下对局：${name}`)
-  const description = await session.$prompt()
-  session.$send('请提供出场队伍/队员，用换行区分')
-  const member = await session.$prompt().then(res => res.split('\r').join('').split('\n'))
+  try {
+    session.$send('给对局起个名字。发送“取消”可以中止。')
+    const name = await prompt({
+      source: () => session.$prompt(),
+      filter: res => res.length,
+      rejectFilter: rej => rej.trim() === '取消',
+      maxRetries: 2
+    })
+    session.$send(`介绍一下对局：${name}。发送“取消”可以中止。`)
+    const description = await prompt({
+      source: () => session.$prompt(),
+      filter: res => res.length,
+      rejectFilter: rej => rej.trim() === '取消',
+      maxRetries: 2
+    })
+    session.$send('请提供出场队伍/队员，用换行区分。发送“取消”可以中止。')
+    const member = await prompt({
+      source: () => session.$prompt(),
+      onRetry: (message, reason) => {
+        if (message) session.$send(`${message} 不符合要求。\n${reason || '换一个答案'}`)
+      },
+      filter: res => {
+        if (res.split('\n').length > 1) return '至少要有两个人。'
+      },
+      rejectFilter: rej => rej.trim() === '取消',
+      maxRetries: 3
+    })
+      .then(res => res.split('\r').join('').split('\n'))
 
-  session.$send([
+    session.$send([
       `对局: ${name}`,
       `介绍: ${description}`,
       `队伍: ${member.join(',')}`,
-      '没问题嘛？发送“确认”提交对局'
-  ].join('\n'))
-  const confirm = await session.$prompt().then(res => res.trim() === '确认')
-  console.log(confirm)
-  if (!confirm) return
-  let result = await createMatch({
-    name,
-    description,
-    member,
-    adder_qq: session.userId
-  })
-    .then(res => res.text())
-    // .then(res => res.json())
-  console.log(result)
-  try {
-    result = JSON.parse(result)
-  } catch (error) {
-    return session.$send(result)
-  }
+      '没问题嘛？发送“确认”提交对局。发送“取消”可以中止。'
+    ].join('\n'))
+    const confirm = await prompt({
+      source: () => session.$prompt(),
+      filter: res => res.trim() === '确认',
+      rejectFilter: rej => rej.trim() === '取消',
+      maxRetries: 10
+    })
+    console.log(confirm)
+    if (!confirm) return session.$send('请重试。')
+    let result = await createMatch({
+      name,
+      description,
+      member,
+      adder_qq: session.userId
+    })
+      .then(res => res.text())
+    try {
+      // .then(res => res.json())
+      console.log(result)
+      result = JSON.parse(result)
+    } catch (error) {
+      return session.$send(result)
+    }
 
-  if (result.message) session.$send(result.message)
-  else session.$send(JSON.stringify(result))
+    if (result.message) session.$send(result.message)
+    else session.$send(JSON.stringify(result))
+  } catch (error) {
+  }
 }
 
 const betOnMatch = async ({ command, meta, app }) => {
@@ -599,11 +630,11 @@ const betOnMatch = async ({ command, meta, app }) => {
     const matches = await matchList()
     matched = matches.find(m => m.name === match)
     if (!matched) return meta.$send('没有找到这个对局。（小阿日没找到）')
-    await meta.$send(`你可以下注给:\n${matched.member.map((t, index) => `  ${index + 1}: ${t}`).join('\n')}\n你可以提供序号或者名字`)
+    await meta.$send(`你可以支持:\n${matched.member.map((t, index) => `  ${index + 1}: ${t}`).join('\n')}\n你可以提供序号或者名字`)
     target = await meta.$prompt()
     // eslint-disable-next-line eqeqeq
     if (parseInt(target) && !matched.member.find(m => m == target)) target = matched.member[target - 1]
-    await meta.$send('下注金额')
+    await meta.$send('支持多少？')
     amount = await meta.$prompt()
   }
   await meta.$send([
@@ -612,7 +643,12 @@ const betOnMatch = async ({ command, meta, app }) => {
       `数量: ${amount}`,
       '没问题嘛？发送“确认”提交'
   ].join('\n'))
-  const confirm = await meta.$prompt().then(res => res.trim() === '确认')
+  const confirm = await prompt({
+    source: () => meta.$prompt(),
+    filter: res => res.trim() === '确认',
+    rejectFilter: rej => rej.trim() === '取消',
+    maxRetries: 10
+  }).catch(() => { meta.$send('操作已经取消') }) // confirm = undefined
   if (!confirm) return
   const result = await bet(matched, {
     qq: meta.userId,
