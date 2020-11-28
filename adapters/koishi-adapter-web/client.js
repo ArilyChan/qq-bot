@@ -32,7 +32,7 @@ module.exports = class WsClient extends Server {
         if (!room || !message) return
         if (user.token && user.token !== '') {
           const rec = await db.getStat(user.token)
-          if (rec.qq && rec.status === 'authenticated') user.id = rec.qq
+          if (rec && rec.qq && rec.status === 'authenticated') user.id = rec.qq
         }
         messageId = messageId || `${socket.id}-${room}-${new Date().getTime()}`
 
