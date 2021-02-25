@@ -10,7 +10,7 @@
     "cqcode-builder": "github:ArilyChan/node-cqcode-builder",
     "dotenv": "^8.2.0",
     "koishi": "^2.4.0",
-    "koishi-adapter-cqhttp": "^1.0.7",
+    "koishi-adapter-cqhttp": "^1.0.8",
     "koishi-plugin-blame": "github:ArilyChan/koishi-plugin-blame",
     "koishi-plugin-eval": "^2.0.3",
     "koishi-plugin-eval-addons": "^1.0.0-beta.0",
@@ -24,7 +24,7 @@
     "sb-plugin-osu-stat-screenshot": "github:ArilyChan/sb-plugin-osu-stat-screenshot",
     "sb-prompt-filter": "github:ArilyChan/sb-prompt-filter",
     "sb-qq-bot-framework": "github:ArilyChan/sb-qq-bot-framework",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.1"
   },
   "devDependencies": {
     "eslint": "^7.11.0",
